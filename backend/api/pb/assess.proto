@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+// This proto is used by the backend to send an img to the algorithm and get the result
+
+option go_package = ".;assess";
+
+message AssessRequest {
+    bytes img = 1;
+}
+
+//test version, may change later
+message AssessResponse {
+    int32 score = 1;
+    string comment = 2;
+}
+
+service AssessService {
+    rpc Assess(AssessRequest) returns (AssessResponse);
+}

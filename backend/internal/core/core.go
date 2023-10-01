@@ -41,7 +41,6 @@ func setRoute(e *gin.Engine) {
 	//e.Use(CORSMiddleware())
 
 	e.POST("/api/v1/img/upload", img.UploadHandler)
-	e.GET("/api/v1/download")
 	e.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "hello world",

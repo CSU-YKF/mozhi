@@ -1,0 +1,9 @@
+version: v1
+plugins:
+  - plugin: go
+    out: ../internal/rpc
+    opt: paths=source_relative
+  - plugin: go-grpc
+    out: ../internal/rpc
+    opt: paths=source_relative
+
