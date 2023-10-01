@@ -1,10 +1,25 @@
 package img
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 func UploadHandler(c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
-	c.Set("Content-Type", "application/json")
-	c.String(200, "hello world")
-	c.FileAttachment(".", "YFK.svg")
+	fmt.Println(c.ContentType())
+	file, err := c.FormFile("img")
+	if err != nil {
+		//TODO
+		c.JSON(http.StatusBadRequest, gin.H{
+			"msg": "upload failed",
+		})
+	}
+	size := file.Size
+	name := file.Filename
+	c.SaveUploadedFile(file, "/tmp/test.jpg")
+	c.JSON(200, gin.H{
+		"score":   0,
+		"comment": "name: " + name + " size: " + string(size),
+	})
 }
