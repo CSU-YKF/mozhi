@@ -1,4 +1,4 @@
-# main.py
+# claude_comment.py
 
 # Author: Rvosuke
 # Date: 2023/09/28
@@ -9,19 +9,20 @@ from preprocessing import resize_image, binarize_image, remove_ink_blobs
 from registration import high_precision_registration
 from feature_extraction import calculate_iou, calculate_image_similarity, calculate_keypoint_matching
 from scoring import calculate_score
+from algorithms.comment.claude_comment import claude
 
 
-def main(image_path, template_path):
+def main(image, template):
     """
     Execute the complete algorithm to evaluate the calligraphic copy.
 
-    :param image_path: Path to the input calligraphic copy image.
-    :param template_path: Path to the template image.
+    :param image: Path to the input calligraphic copy image.
+    :param template: Path to the template image.
     :return: Final score (float).
     """
-    # Load the images
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
+    # # Load the images
+    # image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    # template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
 
     # Preprocessing
     image = resize_image(image, width=400)
@@ -40,21 +41,24 @@ def main(image_path, template_path):
     # Note: calculate_keypoint_matching requires keypoints, which need to be extracted or provided.
     # keypoints1 = ...
     # keypoints2 = ...
-    keypoint_matching = calculate_keypoint_matching(keypoints1, keypoints2)
+    # keypoint_matching = calculate_keypoint_matching(keypoints1, keypoints2)
 
     # Scoring
     features = {
         'iou': iou,
         'similarity': similarity,
-        'keypoint_matching': keypoint_matching,
+        # 'keypoint_matching': keypoint_matching,
     }
     score = calculate_score(features)
-
-    return score
+    comment = claude(features['iou'], features['similarity'])
+    return score, comment
 
 
 if __name__ == "__main__":
-    image_path = "path_to_the_input_image"
-    template_path = "path_to_the_template_image"
-    score = main(image_path, template_path)
-    print("Final Score:", score)
+    image_path = "../src/data/4-2.png"
+    template_path = "../src/data/4-2.png"
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
+    score, comment = main(image, template)
+    print(f"Final Score: {int(score)}")
+    print(comment)

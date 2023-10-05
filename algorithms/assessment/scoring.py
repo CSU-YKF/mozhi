@@ -15,11 +15,11 @@ def calculate_score(features):
     """
     # Define the weights for each feature based on the paper or other information
     weights = {
-        'iou1': 1.94064354,
-        'iou2': 6.51982931,
-        'similar1': -0.96069589,
-        'similar2': 4.23679642,
-        'keyavg': 1.0,  # The weight for keyavg needs to be defined
+        # 'iou': 1.94064354,
+        'iou': 6.51982931,
+        # 'similarity': -0.96069589,
+        'similarity': 4.23679642,
+        # 'keyavg': 1.0,  # The weight for keyavg needs to be defined
     }
 
     # Calculate the weighted sum of the features to get the final score
