@@ -1,7 +1,7 @@
 <script setup>
 import HomeCategory from './components/HomeCategory.vue'
 import HomeBanner from './components/HomeBanner.vue'
-import HomeNew from './components/HomeNew.vue'
+import HomeMywork from './components/HomeMywork.vue'
 import HomeHot from './components/HomeHot.vue'
 import HomeProduct from './components/HomeProduct.vue'
 </script>
@@ -11,7 +11,7 @@ import HomeProduct from './components/HomeProduct.vue'
     <HomeCategory />
     <HomeBanner />
   </div>
-  <HomeNew />
+  <HomeMywork />
   <HomeHot />
   <HomeProduct />
 </template>

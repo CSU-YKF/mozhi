@@ -1,11 +1,9 @@
-<script setup>
-// 以24小时热榜获取数据渲染模版
-import { getHotGoodsAPI } from '@/apis/detail'
-import { computed } from 'vue'
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-// 设计props参数 适配不同的title和数据
 
+<script setup>
+import { computed } from 'vue'
+import { ref } from 'vue'
+
+// 设计props参数 适配不同的title和数据
 const props = defineProps({
   hotType: {
     type: Number
@@ -19,26 +17,33 @@ const TYPEMAP = {
 }
 const title = computed(() => TYPEMAP[props.hotType])
 
-// 1. 封装接口
-// 2. 调用接口渲染模版
-const hotList = ref([])
-const route = useRoute()
-const getHotList = async () => {
-  const res = await getHotGoodsAPI({
-    id: route.params.id,
-    type: props.hotType
-  })
-  hotList.value = res.result
-}
-onMounted(() => getHotList())
+// 静态的热门商品数据，用于替代 API 数据
+const staticHotList = [
+  {
+    id: 1,
+    picture: '/static/images/product1.jpg',
+    name: '商品1',
+    desc: '商品描述1',
+    price: 100
+  },
+  {
+    id: 2,
+    picture: '/static/images/product2.jpg',
+    name: '商品2',
+    desc: '商品描述2',
+    price: 150
+  },
+  // 添加更多静态数据
+]
+
+const hotList = ref(staticHotList)
 </script>
 
-
 <template>
-  <div class="goods-hot">
+  <div class="works-hot">
     <h3>{{ title }}</h3>
     <!-- 商品区块 -->
-    <RouterLink to="/" class="goods-item" v-for="item in hotList" :key="item.id">
+    <RouterLink to="/" class="works-item" v-for="item in hotList" :key="item.id">
       <img :src="item.picture" alt="" />
       <p class="name ellipsis">{{ item.name }}</p>
       <p class="desc ellipsis">{{ item.desc }}</p>
@@ -49,7 +54,7 @@ onMounted(() => getHotList())
 
 
 <style scoped lang="scss">
-.goods-hot {
+.works-hot {
   h3 {
     height: 70px;
     background: $helpColor;
@@ -61,7 +66,7 @@ onMounted(() => getHotList())
     font-weight: normal;
   }
 
-  .goods-item {
+  .works-item {
     display: block;
     padding: 20px 30px;
     text-align: center;

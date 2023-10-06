@@ -1,58 +1,41 @@
 <script setup>
-import { getCategoryFilterAPI, getSubCategoryAPI } from '@/apis/category'
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import GoodsItem from '../Home/components/GoodsItem.vue'
-// 获取面包屑导航数据
-const categoryData = ref({})
-const route = useRoute()
-const getCategoryData = async () => {
-  const res = await getCategoryFilterAPI(route.params.id)
-  categoryData.value = res.result
-}
-onMounted(() => getCategoryData())
+import WorksItem from '../Home/components/WorksItem.vue'
+import { ref } from 'vue' 
 
-// 获取基础列表数据渲染
-const goodList = ref([])
-const reqData = ref({
-  categoryId: route.params.id,
-  page: 1,
-  pageSize: 20,
-  sortField: 'publishTime'
-})
-const getGoodList = async () => {
-  const res = await getSubCategoryAPI(reqData.value)
-  console.log(res)
-  goodList.value = res.result.items
-}
-onMounted(() => getGoodList())
-
-
-// tab切换回调
-const tabChange = () => {
-  console.log('tab切换了', reqData.value.sortField)
-  reqData.value.page = 1
-  getGoodList()
+// 静态的面包屑导航数据
+const staticCategoryData = {
+  parentId: 1,
+  parentName: '父分类',
+  name: '子分类'
 }
 
-// 加载更多
-const disabled = ref(false)
-const load = async () => {
-  console.log('加载更多数据咯')
-  // 获取下一页的数据
-  reqData.value.page++
-  const res = await getSubCategoryAPI(reqData.value)
-  goodList.value = [...goodList.value, ...res.result.items]
-  // 加载完毕 停止监听
-  if (res.result.items.length === 0) {
-    disabled.value = true
-  }
-}
+// 静态的商品列表数据
+const staticWorkList = [
+  {
+    id: 1,
+    name: '商品1',
+    desc: '商品描述1',
+    price: 100
+  },
+  {
+    id: 2,
+    name: '商品2',
+    desc: '商品描述2',
+    price: 150
+  },
+  // 添加更多静态数据
+]
+
+const categoryData = ref(staticCategoryData)
+const workList = ref(staticWorkList)
+
+// 在这里你可以继续添加其他静态数据，或者将它们替换为你需要的实际数据。
+// 请确保静态数据的结构与实际数据的结构相匹配。
 
 </script>
 
 <template>
-  <div class="container ">
+  <div class="container">
     <!-- 面包屑 -->
     <div class="bread-container">
       <el-breadcrumb separator=">">
@@ -63,18 +46,12 @@ const load = async () => {
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs v-model="reqData.sortField" @tab-change="tabChange">
-        <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
-        <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
-        <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
-      </el-tabs>
-      <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
-        <!-- 商品列表-->
-        <GoodsItem v-for="goods in goodList" :goods="goods" :key="goods.id" />
+      <!-- 商品列表 -->
+      <div class="body">
+        <WorksItem v-for="works in workList" :works="works" :key="works.id" />
       </div>
     </div>
   </div>
-
 </template>
 
 
@@ -95,7 +72,7 @@ const load = async () => {
     padding: 0 10px;
   }
 
-  .goods-item {
+  .works-item {
     display: block;
     width: 220px;
     margin-right: 20px;

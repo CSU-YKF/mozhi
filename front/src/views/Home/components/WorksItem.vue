@@ -1,6 +1,6 @@
 <script setup>
 defineProps({
-  goods: {
+  works: {
     tppe: Object,
     default: () => { }
   }
@@ -9,16 +9,16 @@ defineProps({
 
 
 <template>
-  <RouterLink to="/" class="goods-item">
-    <img v-img-lazy="goods.picture" alt="" />
-    <p class="name ellipsis">{{ goods.name }}</p>
-    <p class="desc ellipsis">{{ goods.desc }}</p>
-    <p class="price">&yen;{{ goods.price }}</p>
+  <RouterLink to="/" class="works-item">
+    <img v-img-lazy="works.picture" alt="" />
+    <p class="name ellipsis">{{ works.name }}</p>
+    <p class="desc ellipsis">{{ works.desc }}</p>
+    <p class="price">&yen;{{ works.price }}</p>
   </RouterLink>
 </template>
 
 <style lang="scss" scoped>
-.goods-item {
+.works-item {
   display: block;
   width: 220px;
   padding: 20px 30px;

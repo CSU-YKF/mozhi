@@ -1,12 +1,43 @@
 <script setup>
+import WorksItem from '../Home/components/WorksItem.vue'
+import { ref } from 'vue'
 
-import GoodsItem from '../Home/components/GoodsItem.vue'
-import { useBanner } from './composables/useBanner'
-import { useCategory } from './composables/useCategory'
-const { bannerList } = useBanner()
-const { categoryData } = useCategory()
+const bannerList = ref([])
+const imageNames = ['banner1.png', 'banner2.png', 'banner3.png'] 
+
+// 构建图片文件的完整路径并添加到 bannerList 数组
+imageNames.forEach(imageName => {
+  const imagePath = `./assets/images/${imageName}` 
+  bannerList.value.push(imagePath)
+})
 
 
+const staticCategoryData = {
+  name: '静态分类名称',
+  children: [
+    {
+      id: 1,
+      name: '子分类1',
+      picture: '/static/images/category1.png',
+      goods: [
+        { id: 1, name: '商品1', price: 10 },
+        { id: 2, name: '商品2', price: 15 },
+        // 添加更多商品
+      ]
+    },
+    {
+      id: 2,
+      name: '子分类2',
+      picture: '/static/images/category2.png',
+      goods: [
+        { id: 3, name: '商品3', price: 20 },
+        { id: 4, name: '商品4', price: 25 },
+        // 添加更多商品
+      ]
+    },
+    // 添加更多子分类
+  ]
+}
 </script>
 
 <template>
@@ -16,21 +47,21 @@ const { categoryData } = useCategory()
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ categoryData.name }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ staticCategoryData.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 轮播图 -->
       <div class="home-banner">
         <el-carousel height="500px">
-          <el-carousel-item v-for="item in bannerList" :key="item.id">
-            <img :src="item.imgUrl" alt="">
+          <el-carousel-item v-for="item in bannerList" :key="item">
+            <img :src="item" alt="">
           </el-carousel-item>
         </el-carousel>
       </div>
       <div class="sub-list">
         <h3>全部分类</h3>
         <ul>
-          <li v-for="i in categoryData.children" :key="i.id">
+          <li v-for="i in staticCategoryData.children" :key="i.id">
             <RouterLink :to="`/category/sub/${i.id}`">
               <img :src="i.picture" />
               <p>{{ i.name }}</p>
@@ -38,17 +69,18 @@ const { categoryData } = useCategory()
           </li>
         </ul>
       </div>
-      <div class="ref-goods" v-for="item in categoryData.children" :key="item.id">
+      <div class="ref-goods" v-for="item in staticCategoryData.children" :key="item.id">
         <div class="head">
           <h3>- {{ item.name }}-</h3>
         </div>
         <div class="body">
-          <GoodsItem v-for="good in item.goods" :goods="good" :key="good.id" />
+          <WorksItem v-for="good in item.goods" :goods="good" :key="good.id" />
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 
 <style scoped lang="scss">
