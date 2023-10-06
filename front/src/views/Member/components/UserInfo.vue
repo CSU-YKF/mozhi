@@ -2,7 +2,7 @@
 import { getLikeListAPI } from '@/apis/user'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
-import GoodsItem from '@/views/Home/components/GoodsItem.vue'
+import WorksItem from '@/views/Home/components/WorksItem.vue'
 const userStore = useUserStore()
 
 
@@ -48,7 +48,7 @@ onMounted(() => getLikeList())
         <h4 data-v-bcb266e0="">猜你喜欢</h4>
       </div>
       <div class="goods-list">
-        <GoodsItem v-for="good in likeList" :key="good.id" :goods="good" />
+        <WorksItem v-for="good in likeList" :key="good.id" :goods="good" />
       </div>
     </div>
   </div>

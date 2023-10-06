@@ -1,20 +1,20 @@
 <script setup>
 import HomePanel from './HomePanel.vue'
-import { getGoodsAPI } from '@/apis/home'
+import { getWorksAPI } from '@/apis/home'
 import { onMounted, ref } from 'vue'
-import GoodsItem from './GoodsItem.vue'
+import WorksItem from './WorksItem.vue'
 // 获取数据列表
-const goodsProduct = ref([])
-const getGoods = async () => {
-  const res = await getGoodsAPI()
-  goodsProduct.value = res.result
+const worksProduct = ref([])
+const getWorks = async () => {
+  const res = await getWorksAPI()
+  worksProduct.value = res.result
 }
-onMounted(() => getGoods())
+onMounted(() => getWorks())
 </script>
 
 <template>
   <div class="home-product">
-    <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">
+    <HomePanel :title="cate.name" v-for="cate in worksProduct" :key="cate.id">
       <div class="box">
         <RouterLink class="cover" to="/">
           <img v-img-lazy="cate.picture" />
@@ -23,9 +23,9 @@ onMounted(() => getGoods())
             <span>{{ cate.saleInfo }}</span>
           </strong>
         </RouterLink>
-        <ul class="goods-list">
-          <li v-for="goods in cate.goods" :key="goods.id">
-            <GoodsItem :goods="goods" />
+        <ul class="works-list">
+          <li v-for="works in cate.works" :key="works.id">
+            <WorksItem :works="works" />
           </li>
         </ul>
       </div>
@@ -100,7 +100,7 @@ onMounted(() => getGoods())
       }
     }
 
-    .goods-list {
+    .works-list {
       width: 990px;
       display: flex;
       flex-wrap: wrap;

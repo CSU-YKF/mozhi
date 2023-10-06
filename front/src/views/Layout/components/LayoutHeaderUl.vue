@@ -1,8 +1,18 @@
 <script setup>
-import { useCategoryStore } from '@/stores/categoryStore'
-const categoryStore = useCategoryStore()
-</script>
+import { ref } from 'vue'
 
+// 静态的分类数据
+const staticCategoryList = [
+  {
+    id: 1,
+    name: '分类',
+  },
+  // 添加更多静态数据
+]
+
+const categoryList = ref(staticCategoryList)
+
+</script>
 
 <template>
   <ul class="app-header-nav">
@@ -12,13 +22,14 @@ const categoryStore = useCategoryStore()
     <li>
       <RouterLink to="/">上传</RouterLink>
     </li>
-    <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
+    <li class="home" v-for="item in categoryList" :key="item.id">
       <RouterLink active-class="active" :to="`/category/${item.id}`">
         {{ item.name }}
       </RouterLink>
     </li>
   </ul>
 </template>
+
 
 
 <style lang="scss">

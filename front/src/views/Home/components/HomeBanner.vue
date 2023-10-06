@@ -1,16 +1,14 @@
 <script setup>
-import { getBannerAPI } from '@/apis/home'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 
 const bannerList = ref([])
+const imageNames = ['banner1.png', 'banner2.png', 'banner3.png'] 
 
-const getBanner = async () => {
-  const res = await getBannerAPI()
-  console.log(res)
-  bannerList.value = res.result
-}
-
-onMounted(() => getBanner())
+// 构建图片文件的完整路径并添加到 bannerList 数组
+imageNames.forEach(imageName => {
+  const imagePath = `../../assets/images/${imageName}` 
+  bannerList.value.push(imagePath)
+})
 
 </script>
 
@@ -19,8 +17,8 @@ onMounted(() => getBanner())
 <template>
   <div class="home-banner">
     <el-carousel height="500px">
-      <el-carousel-item v-for="item in bannerList" :key="item.id">
-        <img :src="item.imgUrl" alt="">
+      <el-carousel-item v-for="item in bannerList" :key="item">
+          <img :src="item" alt="">
       </el-carousel-item>
     </el-carousel>
   </div>

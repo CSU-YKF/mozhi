@@ -1,21 +1,38 @@
 <script setup>
-import { useCategoryStore } from '@/stores/categoryStore'
+import { ref } from 'vue'
 
-const categoryStore = useCategoryStore()
+// 静态的分类数据
+const staticCategoryList = [
+  {
+    id: 1,
+    name: '推荐练习',
+    children: [
+      { id: 11, name: '字1' },
+      { id: 12, name: '字2' }
+    ],
+    works: [
+      { id: 101, name: '作品1', desc: '作品描述1', price: 100, picture: '图片路径1' },
+      { id: 102, name: '作品2', desc: '作品描述2', price: 150, picture: '图片路径2' }
+    ]
+  },
+  // 添加更多静态数据
+]
+
+const categoryList = ref(staticCategoryList)
 
 </script>
 
 <template>
   <div class="home-category">
     <ul class="menu">
-      <li v-for="item in categoryStore.categoryList" :key="item.id">
+      <li v-for="item in categoryList" :key="item.id">
         <RouterLink to="/">{{ item.name }}</RouterLink>
-        <RouterLink v-for="i in item.children.slice(0, 2)" :key="i" to="/">{{ i.name }}</RouterLink>
+        <RouterLink v-for="i in item.children.slice(0, 2)" :key="i.id" to="/">{{ i.name }}</RouterLink>
         <!-- 弹层layer位置 -->
         <div class="layer">
-          <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
+          <h4>练字推荐 <small>根据您查找或浏览记录推荐</small></h4>
           <ul>
-            <li v-for="i in item.goods" :key="i.id">
+            <li v-for="i in item.works" :key="i.id">
               <RouterLink to="/">
                 <img :src="i.picture" alt="" />
                 <div class="info">
@@ -23,7 +40,7 @@ const categoryStore = useCategoryStore()
                     {{ i.name }}
                   </p>
                   <p class="desc ellipsis">{{ i.desc }}</p>
-                  <p class="price"><i>¥</i>{{ i.price }}</p>
+                  <p class="price"><i>评分</i>{{ i.price }}</p>
                 </div>
               </RouterLink>
             </li>
@@ -33,6 +50,8 @@ const categoryStore = useCategoryStore()
     </ul>
   </div>
 </template>
+
+
 
 
 <style scoped lang='scss'>
