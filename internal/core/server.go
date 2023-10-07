@@ -1,33 +1,19 @@
 package core
 
 import (
-	"backend/internal/img"
 	"github.com/gin-gonic/gin"
+	"github.com/gookit/config/v2"
 	"log"
-	"net/http"
+	"mozhi/internal/img"
 	"strconv"
 )
 
-type InitParams struct {
-	crt  string
-	key  string
-	port uint
-}
-
-func CreateInitParams() InitParams {
-	return InitParams{
-		crt:  "server.crt",
-		key:  "server.key",
-		port: 8888,
-	}
-}
-
-func Start(params InitParams) {
+func Start() {
 	e := gin.Default()
 
 	setRoute(e)
 	//Run() blocks the execution of the program
-	err := e.Run(":" + strconv.Itoa(int(params.port)))
+	err := e.Run(":" + strconv.Itoa(config.Int("Init.port")))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,12 +26,10 @@ func Start(params InitParams) {
 func setRoute(e *gin.Engine) {
 	//e.Use(CORSMiddleware())
 
+	root := "../../" + config.String("Init.static")
+	e.Static("/", root)
 	e.POST("/api/v1/img/upload", img.UploadHandler)
-	e.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "hello world",
-		})
-	})
+
 }
 
 func CORSMiddleware() gin.HandlerFunc {
