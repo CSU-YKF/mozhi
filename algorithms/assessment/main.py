@@ -1,3 +1,4 @@
+
 # claude_comment.py
 
 # Author: Rvosuke
@@ -9,6 +10,7 @@ from preprocessing import resize_image, binarize_image, remove_ink_blobs
 from registration import high_precision_registration
 from feature_extraction import calculate_iou, calculate_image_similarity, calculate_keypoint_matching
 from scoring import calculate_score
+
 from algorithms.comment.claude_comment import claude
 
 
