@@ -1,0 +1,5 @@
+Init:
+  crt:
+  key:
+  port: 9999
+  static: ./web/dist
