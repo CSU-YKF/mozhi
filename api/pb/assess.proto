@@ -10,7 +10,7 @@ message AssessRequest {
 
 //test version, may change later
 message AssessResponse {
-    int32 score = 1;
+    float score = 1;
     string comment = 2;
 }
 

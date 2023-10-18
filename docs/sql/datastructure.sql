@@ -26,11 +26,12 @@ create or replace table user
     email        varchar(128)               not null,
     portrait     mediumblob  default ''     not null,
     gender       char        default 'U'    not null,
-    password     varchar(128)               null comment 'salted',
+    saltpassword varchar(128)               null comment 'salted',
     logintime    datetime                   not null,
     loginaddress varchar(128)               not null,
     exittime     datetime                   not null,
-    allowlogin   tinyint(1)                 not null
+    allowlogin   tinyint(1)                 not null,
+    salt         char(16)                   not null
 );
 
 create or replace table image_info

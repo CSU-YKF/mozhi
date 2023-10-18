@@ -5,6 +5,7 @@ import (
 	"github.com/gookit/config/v2"
 	"log"
 	"mozhi/internal/img"
+	"mozhi/internal/user"
 	"strconv"
 )
 
@@ -29,7 +30,8 @@ func setRoute(e *gin.Engine) {
 	root := "../../" + config.String("Init.static")
 	e.Static("/", root)
 	e.POST("/api/v1/img/upload", img.UploadHandler)
-
+	e.POST("/register", user.RegisterHandler)
+	e.POST("/login", user.LoginHandler)
 }
 
 func CORSMiddleware() gin.HandlerFunc {
