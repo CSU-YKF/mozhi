@@ -30,7 +30,7 @@ def localMeanBrightnessMatching(image, kernel_size=(50, 50)):
 
 
 if __name__ == '__main__':
-    original_image = cv2.imread('../src/data/7.jpg')
+    original_image = cv2.imread('../dataset/test_data/7.jpg')
     original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
     # 对图像进行局部平均亮度匹配
     brightness_matched_image = localMeanBrightnessMatching(original_image)

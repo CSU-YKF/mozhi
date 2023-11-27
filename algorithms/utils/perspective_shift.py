@@ -87,7 +87,7 @@ def perspectiveTransform(input_image, points):
 
 
 if __name__ == '__main__':
-    image = cv2.imread('../src/data/7.jpg')
+    image = cv2.imread('../dataset/test_data/7.jpg')
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     warped_image = perspectiveTransform(image, )
 
