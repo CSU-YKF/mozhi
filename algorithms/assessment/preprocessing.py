@@ -64,4 +64,4 @@ def remove_ink_blobs(image, min_size=5):
     cleaned_image = morphology.remove_small_objects(boolean_img, min_size=min_size)
     return cleaned_image.astype(np.uint8) * 255
 
-# Additional preprocessing functions can be added based on the `preprocess` Python file
+# Additional preprocessing functions can be added based on the `utils` Python file

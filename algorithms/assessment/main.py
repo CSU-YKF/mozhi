@@ -1,3 +1,4 @@
+import time
 
 # claude_comment.py
 
@@ -11,10 +12,10 @@ from registration import high_precision_registration
 from feature_extraction import calculate_iou, calculate_image_similarity, calculate_keypoint_matching
 from scoring import calculate_score
 
-from algorithms.comment.claude_comment import claude
+# from ..comment.claude_comment import claude
 
 
-def main(image, template):
+def score_main(image, template):
     """
     Execute the complete algorithm to evaluate the calligraphic copy.
 
@@ -52,15 +53,20 @@ def main(image, template):
         # 'keypoint_matching': keypoint_matching,
     }
     score = calculate_score(features)
-    comment = claude(features['iou'], features['similarity'])
-    return score, comment
+    try:
+        comment = claude(features['iou'], features['similarity'])
+    except:
+        comment = None
+    return float(score), comment
 
 
 if __name__ == "__main__":
-    image_path = "../src/data/4-2.png"
-    template_path = "../src/data/4-2.png"
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
-    score, comment = main(image, template)
-    print(f"Final Score: {int(score)}")
-    print(comment)
+    while True:
+        image_path = "../dataset/test_data/4-2.png"
+        template_path = "../dataset/test_data/4-2.png"
+        image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+        template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
+        score, comment = score_main(image, template)
+        print(f"Final Score: {int(score)}")
+        print(comment)
+        time.sleep(0.05)

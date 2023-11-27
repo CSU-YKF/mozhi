@@ -766,7 +766,7 @@ packages:
     version: 1.5.1
     dependencies:
       follow-redirects: registry.npmmirror.com/follow-redirects@1.15.3
-      form-data: registry.npmmirror.com/form-data@4.0.0
+      form-data: registry.npmmirror.com/form-test_data@4.0.0
       proxy-from-env: registry.npmmirror.com/proxy-from-env@1.1.0
     transitivePeerDependencies:
       - debug
@@ -1231,7 +1231,7 @@ packages:
 
   registry.npmmirror.com/form-data@4.0.0:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/form-data/-/form-data-4.0.0.tgz}
-    name: form-data
+    name: form-test_data
     version: 4.0.0
     engines: {node: '>= 6'}
     dependencies:

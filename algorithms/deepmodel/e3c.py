@@ -32,7 +32,7 @@ class E3C(Dataset):
         self.image_labels = []
         self.train = train
         self.train_ratio = 0.8
-        result_file = 'data/result.txt'
+        result_file = '../dataset/data/result.txt'
 
         # 读取 result.txt 文件并解析
         with open(result_file, 'r') as file:
