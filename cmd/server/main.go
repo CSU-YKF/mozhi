@@ -21,7 +21,7 @@ func main() {
 	config.AddDriver(yaml.Driver)
 
 	// 加载配置，可以同时传入多个文件
-	err := config.LoadFiles("../../config/config.yaml")
+	err := config.LoadFiles("./config/config.yaml")
 	if err != nil {
 		panic(err)
 	}

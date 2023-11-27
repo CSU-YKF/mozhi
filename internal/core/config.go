@@ -1,10 +1,12 @@
 package core
 
 type InitConfig struct {
-	crt    string `mapstructure:"crt"`
-	key    string `mapstructure:"key"`
-	port   uint   `mapstructure:"port"`
-	static string `mapstructure:"static"`
+	crt        string `mapstructure:"crt"`
+	key        string `mapstructure:"key"`
+	port       uint   `mapstructure:"port"`
+	rpc_client string `mapstructure:"rpc_client"`
+	rpc_server string `mapstructure:"rpc_server"`
+	static     string `mapstructure:"static"`
 }
 
 type DatabaseConfig struct {

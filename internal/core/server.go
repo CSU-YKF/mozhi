@@ -29,7 +29,7 @@ func setRoute(e *gin.Engine) {
 
 	root := "../../" + config.String("Init.static")
 	e.Static("/", root)
-	e.POST("/api/v1/img/upload", img.UploadHandler)
+	e.POST("/api/v1/public/img/upload", img.UploadHandler)
 	e.POST("/register", user.RegisterHandler)
 	e.POST("/login", user.LoginHandler)
 }

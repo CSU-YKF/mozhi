@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 	"io"
 	"log/slog"
 	pb "mozhi/internal/rpc/pb"
@@ -27,7 +28,7 @@ func UploadHandler(c *gin.Context) {
 	defer fileObject.Close()
 	content, err := io.ReadAll(fileObject)
 
-	conn, err := grpc.Dial("localhost:50051")
+	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		slog.Warn(err.Error())
 	}
@@ -36,6 +37,9 @@ func UploadHandler(c *gin.Context) {
 	resp, err := client.Assess(context.Background(), &pb.AssessRequest{
 		Img: content,
 	})
+	if err != nil {
+		slog.Warn(err.Error())
+	}
 
 	c.SaveUploadedFile(file, "/tmp/test.jpg")
 	c.JSON(200, gin.H{
