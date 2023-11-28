@@ -29,7 +29,7 @@ if __name__ == '__main__':
     from lmb_matching import localMeanBrightnessMatching
     from perspective_shift import perspectiveTransform
     # Load the new uploaded image
-    image_path = '../dataset/test_data/4-2.png'
+    image_path = '../../dataset/test_data/4-2.png'
     original_image = cv2.imread(image_path, cv2.IMREAD_COLOR)
     original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
 

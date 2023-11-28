@@ -24,7 +24,7 @@ def thresholding(input_image):
 
 
 # 构建相对路径
-relative_path = os.path.join('..', 'src', 'test_data', '2.png')
+relative_path = os.path.join('../..', 'src', 'test_data', '2.png')
 absolute_path = os.path.abspath(relative_path)
 
 # 检查文件是否存在
