@@ -10,7 +10,7 @@ func RegisterHandler(c *gin.Context) {
 	db := data.GetDb()
 	defer db.Close()
 	name := c.PostForm("username")
-	stmt, err := db.Prepare("SELECT 1 FROM user WHERE username = ?")
+	stmt, err := db.Prepare("SELECT 1 FROM user WHERE name = ?")
 	if err != nil {
 		slog.Error(err.Error())
 	}
@@ -36,7 +36,7 @@ func RegisterHandler(c *gin.Context) {
 	}
 
 	saltpassword := data.CryptoPassword(salt, c.PostForm("password"))
-	stmt, err = db.Prepare("INSERT INTO user(username, nickname, salt, saltpassword) VALUES(?,?,?,?)")
+	stmt, err = db.Prepare("INSERT INTO user(name, nickname, salt, saltpassword) VALUES(?,?,?,?)")
 	if err != nil {
 		slog.Error(err.Error())
 		return

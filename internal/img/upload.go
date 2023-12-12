@@ -2,28 +2,28 @@ package img
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"io"
 	"log/slog"
+	"mozhi/internal/data"
 	pb "mozhi/internal/rpc/pb"
 	"net/http"
 )
 
-func UploadHandler(c *gin.Context) {
-	fmt.Println(c.ContentType())
-	file, err := c.FormFile("img")
+func PublicUploadHandler(c *gin.Context) {
+	imgForm, err := c.FormFile("img")
 	if err != nil {
 		//TODO
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg": "upload failed",
 		})
 	}
-	fileObject, err := file.Open()
+	fileObject, err := imgForm.Open()
 	if err != nil {
 		slog.Warn(err.Error())
+
 	}
 	defer fileObject.Close()
 	content, err := io.ReadAll(fileObject)
@@ -31,6 +31,9 @@ func UploadHandler(c *gin.Context) {
 	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		slog.Warn(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"msg": "server grpc failed",
+		})
 	}
 	defer conn.Close()
 	client := pb.NewAssessServiceClient(conn)
@@ -39,9 +42,12 @@ func UploadHandler(c *gin.Context) {
 	})
 	if err != nil {
 		slog.Warn(err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"msg": "server grpc failed",
+		})
 	}
-
-	c.SaveUploadedFile(file, "/tmp/test.jpg")
+	//TODO
+	data.SaveImg(content, 0, 0)
 	c.JSON(200, gin.H{
 		"score":   resp.Score,
 		"comment": resp.Comment,
