@@ -16,8 +16,8 @@ def main():
     time = datetime.now()
 
     # 加载数据集，划分训练集和验证集，并进行数据预处理
-    train_dataset = E3C(root_dir='data/E3C', train=True)
-    test_dataset = E3C(root_dir='data/E3C', train=False)
+    train_dataset = E3C(root_dir='../dataset/data/E3C', train=True)
+    test_dataset = E3C(root_dir='../dataset/data/E3C', train=False)
 
     train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=16)
     test_dataloader = DataLoader(test_dataset, batch_size=BATCH_SIZE * 2, num_workers=8)
