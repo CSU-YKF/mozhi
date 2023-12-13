@@ -1,9 +1,12 @@
 package core
 
 import (
+	"bytes"
 	"github.com/gin-gonic/gin"
 	"github.com/gookit/config/v2"
+	"io"
 	"log"
+	"log/slog"
 	"mozhi/internal/img"
 	"mozhi/internal/user"
 	"strconv"
@@ -14,6 +17,7 @@ func Start() {
 
 	setRoute(e)
 	//Run() blocks the execution of the program
+	slog.Info("server starting at port " + strconv.Itoa(config.Int("Init.port")))
 	err := e.Run(":" + strconv.Itoa(config.Int("Init.port")))
 	if err != nil {
 		log.Fatal(err)
@@ -25,13 +29,19 @@ func Start() {
 }
 
 func setRoute(e *gin.Engine) {
-	//e.Use(CORSMiddleware())
+	e.Use(CORSMiddleware())
+	e.Use(logMiddleware())
 
-	root := "../../" + config.String("Init.static")
-	e.Static("/", root)
-	e.POST("/api/v1/public/img/upload", img.UploadHandler)
-	e.POST("/register", user.RegisterHandler)
-	e.POST("/login", user.LoginHandler)
+	//root := "../../" + config.String("Init.static")
+	root := config.String("Init.static")
+
+	e.GET("/test", test)
+	e.POST("/api/v1/public/img/upload", img.PublicUploadHandler)
+	e.GET("/api/v1/public/imginfo/get", img.PublicDownloadHandler)
+	e.GET("/api/v1/public/img/get", img.PublicDownloadImageHandler)
+	e.POST("/api/v1/register", user.RegisterHandler)
+	e.POST("/api/v1/login", user.LoginHandler)
+	e.Static("/home", root)
 }
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -48,4 +58,34 @@ func CORSMiddleware() gin.HandlerFunc {
 
 		c.Next()
 	}
+}
+
+func logMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		bodyBytes, err := io.ReadAll(c.Request.Body)
+		if err != nil {
+			slog.Warn("Failed to read request body")
+			return
+		}
+		// 将body的内容复制回c.Request.Body，以便后面的代码可以读取它
+		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+
+		slog.Info(
+			"Receiving Request",
+			"Request IP", c.ClientIP(),
+			"Request Host", c.Request.Host,
+			"Request URL", c.Request.URL.Path,
+			"Request Method", c.Request.Method,
+			"Request Header", c.Request.Header,
+			"Request Body", string(bodyBytes), // 打印body的内容
+			"Request Form", c.Request.Form,
+		)
+		c.Next()
+	}
+}
+
+func test(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"msg": "test success",
+	})
 }

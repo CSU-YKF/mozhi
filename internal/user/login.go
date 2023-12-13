@@ -10,15 +10,14 @@ import (
 func LoginHandler(c *gin.Context) {
 	db := data.GetDb()
 	defer db.Close()
-	{
-		token, err := c.Cookie(config.String("Session.cookieName"))
-		if err == nil {
-			if data.TestToken(token) {
-				c.JSON(200, gin.H{
-					"msg": "already login",
-				})
-				return
-			}
+
+	token, err := c.Cookie(config.String("Session.cookieName"))
+	if err == nil {
+		if data.TestToken(token) {
+			c.JSON(200, gin.H{
+				"msg": "already login",
+			})
+			return
 		}
 	}
 
