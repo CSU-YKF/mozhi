@@ -4,28 +4,28 @@ import { ref } from 'vue'
 // 静态的分类数据
 const staticCategoryList = [
   {
-    id: 1,
-    name: '分类',
+    name: '整页上传',
   },
   // 添加更多静态数据
 ]
 
 const categoryList = ref(staticCategoryList)
 
+
 </script>
 
 <template>
   <ul class="app-header-nav">
     <li class="home">
-      <RouterLink to="/">首页</RouterLink>
-    </li>
-    <li>
-      <RouterLink to="/">上传</RouterLink>
+      <RouterLink to="/index.html">返回首页</RouterLink>
     </li>
     <li class="home" v-for="item in categoryList" :key="item.id">
-      <RouterLink active-class="active" :to="`/category/${item.id}`">
+      <RouterLink active-class="active" to="/uploads/upload">
         {{ item.name }}
       </RouterLink>
+    </li>
+    <li class="home" >
+        <RouterLink active-class="active" to="/uploads/search">搜索上传</RouterLink>
     </li>
   </ul>
 </template>

@@ -8,14 +8,14 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
-
+// import { loginAPI } from '@/apis/login'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
 
 // 1. 准备表单对象
 const form = ref({
-  account: '111111111',
+  account: 'dyf',
   password: '123456',
   agree: true
 })
@@ -48,24 +48,33 @@ const rules = {
 // 3. 获取form实例做统一校验
 const formRef = ref(null)
 const router = useRouter()
-const doLogin = () => {
-  const { account, password } = form.value
-  // 调用实例方法
-  formRef.value.validate(async (valid) => {
-    // valid: 所有表单都通过校验  才为true
-    console.log(valid)
-    // 以valid做为判断条件 如果通过校验才执行登录逻辑
-    if (valid) {
-      // TODO LOGIN
-      await userStore.getUserInfo({ account, password })
-      // 1. 提示用户
-      ElMessage({ type: 'success', message: '登录成功' })
-      // 2. 跳转首页
-      router.replace({ path: '/' })
-    }
+
+const doLogin = (formData) => {
+    const { account, password } = formData
+    // 调用实例方法
+    formRef.value.validate(async (valid) => {
+      // valid: 所有表单都通过校验  才为true
+      console.log(valid)
+      // 以valid做为判断条件 如果通过校验才执行登录逻辑
+      if (valid) {
+        // TODO LOGIN
+        // const res = await loginAPI({ account, password })
+        // console.log(res)
+        await userStore.getUserInfo({ account, password })
+        // 1. 提示用户
+        ElMessage({ type: 'success', message: '会员登录成功' })
+        // 2. 跳转首页
+        router.replace({ path: '/upload/search' })
+      }
   })
 }
 
+
+ 
+
+const toRegister = () => {  
+      router.replace({ path: '/register' })
+}
 // 1. 用户名和密码 只需要通过简单的配置（看文档的方式 - 复杂功能通过多个不同组件拆解）
 // 2. 同意协议  自定义规则  validator:(rule,value,callback)=>{}
 // 3. 统一校验  通过调用form实例的方法 validate -> true
@@ -105,7 +114,10 @@ const doLogin = () => {
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn" @click="doLogin">点击登录</el-button>
+              <div class="button-container">
+                <el-button size="large" class="subBtn" @click="doLogin(form.value)">点击登录</el-button>
+                <el-button size="large" class="subBtn" @click="toRegister">点击注册</el-button>
+              </div>
             </el-form>
           </div>
         </div>
@@ -356,4 +368,10 @@ const doLogin = () => {
   width: 100%;
   color: #fff;
 }
+
+.button-container {
+  display: flex;
+  justify-content: space-between;  // 按钮之间有空间
+}
+
 </style>

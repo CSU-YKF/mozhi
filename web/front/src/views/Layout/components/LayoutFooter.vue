@@ -34,15 +34,15 @@
         <div class="slogan">
           <a href="javascript:;">
             <i class="iconfont icon-footer01"></i>
-            <span>价格亲民</span>
+            <span></span>
           </a>
           <a href="javascript:;">
             <i class="iconfont icon-footer02"></i>
-            <span>使用方便</span>
+            <span></span>
           </a>
           <a href="javascript:;">
             <i class="iconfont icon-footer03"></i>
-            <span>评价准确</span>
+            <span></span>
           </a>
         </div>
         <!-- 版权信息 -->
@@ -56,7 +56,7 @@
             <a href="javascript:;">搜索推荐</a>
             <a href="javascript:;">友情链接</a>
           </p>
-          <p>MoZhi 墨智AI</p>
+          <p>linkin</p>
         </div>
       </div>
     </div>

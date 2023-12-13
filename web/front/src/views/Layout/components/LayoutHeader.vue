@@ -1,20 +1,16 @@
 <script setup>
 import LayoutHeaderUl from './LayoutHeaderUl.vue'
+import 'element-plus/theme-chalk/el-message.css'
 </script>
 
 <template>
   <header class='app-header'>
     <div class="container">
       <h1 class="Mozhilogo">
-        <RouterLink to="/">墨智</RouterLink>
+        <RouterLink to="/">linkin</RouterLink>
       </h1>
-
       <LayoutHeaderUl />
-      <div class="search">
-        <i class="iconfont icon-search"></i>
-        <input type="text" placeholder="搜一搜">
-      </div>
-    </div>S
+    </div>
 </header>
 </template>
 

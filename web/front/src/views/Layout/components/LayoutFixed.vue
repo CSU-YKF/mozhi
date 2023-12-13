@@ -55,7 +55,7 @@ const { y } = useScroll(window)
     margin-right: 40px;
     width: 100px;
     height: 100px;
-    background: url("@/assets/images/Mozhilogo.png") no-repeat right 10px;
+    // background: url("@/assets/images/Mozhilogo.png") no-repeat right 10px;
     background-size: 100px auto;
   }
 
