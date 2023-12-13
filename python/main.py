@@ -12,8 +12,8 @@ from concurrent import futures
 import logging
 
 import grpc
-from python.pb import assess_pb2
-from python.pb import assess_pb2_grpc
+from pb import assess_pb2
+from pb import assess_pb2_grpc
 
 
 class Assess(assess_pb2_grpc.AssessServiceServicer):

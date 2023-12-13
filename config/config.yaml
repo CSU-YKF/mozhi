@@ -6,7 +6,8 @@ Init:
 
 Database:
   driverName: mysql
-  dataSource: user:password@tcp(localhost:3306)/dbname?charset=utf8
+#  dataSource: user:password@tcp(localhost:3306)/dbname?charset=utf8
+  dataSource: root:root@tcp(localhost:3306)/inkin?charset=utf8
 
 Redis:
   addr: localhost:6379

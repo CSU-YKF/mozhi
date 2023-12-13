@@ -1,4 +1,6 @@
-create or replace table assess
+create or replace database inkin;
+
+create or replace table inkin.assess
 (
     ID         int auto_increment
         primary key,
@@ -9,14 +11,14 @@ create or replace table assess
     lastaccess datetime     null
 );
 
-create or replace table image_data
+create or replace table inkin.image_data
 (
     ID   int auto_increment
         primary key,
-    data blob null
+    data LONGBLOB null
 );
 
-create or replace table user
+create or replace table inkin.user
 (
     ID           int auto_increment
         primary key,
@@ -34,22 +36,21 @@ create or replace table user
     salt         char(16)                   not null
 );
 
-create or replace table image_info
+create or replace table inkin.image_info
 (
     ID        int auto_increment
         primary key,
     img_id    int          not null,
-    preview   blob         not null,
-    user_id   int          null,
-    assess_id int          null,
-    md5       varchar(128) null,
-    constraint image_info_pk
-        unique (md5),
-    constraint image_info_assess_ID_fk
-        foreign key (assess_id) references assess (ID),
-    constraint image_info_image_data_ID_fk
-        foreign key (img_id) references image_data (ID),
-    constraint image_info_user_ID_fk
-        foreign key (user_id) references user (ID)
+    user_id   int          null comment 'the user who upload the image, 如果user_id为0，then it is a public image',
+    assess_id int          null ,
+    md5       varchar(128) null
+#     constraint image_info_pk
+#         unique (md5),
+#     constraint image_info_assess_ID_fk
+#         foreign key (assess_id) references assess (ID),
+#     constraint image_info_image_data_ID_fk
+#         foreign key (img_id) references image_data (ID),
+#     constraint image_info_user_ID_fk
+#         foreign key (user_id) references user (ID)
 );
 
