@@ -2,8 +2,8 @@ import torch
 import torchvision.transforms as transforms
 from PIL import Image
 
-from models import resnet, vit
-from e3c import default_transform
+from .models import resnet, vit
+from .e3c import default_transform
 
 
 def load_model(model, model_weights):
@@ -15,13 +15,13 @@ def load_model(model, model_weights):
     return model
 
 
-def preprocess_image(image_path):
+def preprocess_image(image):
     """
     对图像进行预处理
     """
     transform = default_transform
-
-    image = Image.open(image_path).convert('RGB')
+    if isinstance(image, str):
+        image = Image.open(image).convert('RGB')
     image = transform(image)
     image = image.unsqueeze(0)  # 增加批次维度
     return image
@@ -40,7 +40,7 @@ def main(image_path):
     """
     主函数，加载模型并对图像进行推理
     """
-    model = load_model(resnet, 'resnet50.pth')
+    model = load_model(resnet, './deepmodel/resnet50.pth')
     image = preprocess_image(image_path)
     prediction = infer(model, image)
     print(f'Predicted: {prediction.item()}')
@@ -48,4 +48,4 @@ def main(image_path):
 
 
 if __name__ == '__main__':
-    predict = main('../dataset/test_data/test.png')
+    predict = main('../utils/single_pre/li_with_grid.png')
