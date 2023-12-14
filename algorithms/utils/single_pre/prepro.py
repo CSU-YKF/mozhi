@@ -19,7 +19,7 @@ li = cv2.medianBlur(li, 5)
 # li = cv2.GaussianBlur(li, (5, 5), 0)
 ret, li = cv2.threshold(li, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 # element = cv2.getStructuringElement(cv2.MORPH_CROSS, (3, 3))
-# skel = np.zeros_like(li)
+# skel = np.zeros_like(li)pip3 install opencv-contrib-python -i https://pypi.tuna.tsinghua.edu.cn/simple
 # while True:
 #     # Erode the image
 #     eroded = cv2.erode(li, element)
@@ -38,4 +38,4 @@ ret, li = cv2.threshold(li, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 # 显示图像
 li = Image.fromarray(li)
 li.show()
-# li.save('li_pre.png')
+li.save('li_pre.png')
