@@ -7,7 +7,7 @@ def setup_logger(timestamp):
     :return:
     """
 
-    logging.basicConfig(filename=f"training_logs_{timestamp}.log",
+    logging.basicConfig(filename=f"{timestamp}.log",
                         filemode='w',
                         level=logging.INFO,
                         format='%(asctime)s [%(levelname)s] - %(message)s',
