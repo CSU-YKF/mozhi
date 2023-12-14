@@ -1,8 +1,6 @@
 from asyncio import futures
 
 import grpc
-import numpy
-from PIL import Image
 # import yaml
 
 import pb.assess_pb2 as pb

@@ -28,3 +28,7 @@ type SessionConfig struct {
 	secure   bool   `mapstructure:"secure"`
 	httpOnly bool   `mapstructure:"httpOnly"`
 }
+
+type AlgorithmConfig struct {
+	grpcUrl string `mapstructure:"grpcUrl"`
+}

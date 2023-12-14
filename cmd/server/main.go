@@ -15,6 +15,7 @@ func main() {
 	dataBaseConfig := core.DatabaseConfig{}
 	redisConfig := core.RedisConfig{}
 	sessionConfig := core.SessionConfig{}
+	algorithmConfig := core.AlgorithmConfig{}
 
 	gin.SetMode(gin.ReleaseMode)
 	// 设置选项支持 ENV 解析
@@ -24,7 +25,8 @@ func main() {
 	config.AddDriver(yaml.Driver)
 
 	// 加载配置，可以同时传入多个文件
-	err := config.LoadFiles("./config/config.yaml")
+	err := config.LoadFiles("./config.yaml")
+	err = config.LoadFiles("./config/config.yaml")
 	if err != nil {
 		panic(err)
 	}
@@ -42,6 +44,10 @@ func main() {
 		panic(err)
 	}
 	err = config.BindStruct("Session", &sessionConfig)
+	if err != nil {
+		panic(err)
+	}
+	err = config.BindStruct("Algorithm", &algorithmConfig)
 	if err != nil {
 		panic(err)
 	}

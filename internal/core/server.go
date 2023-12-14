@@ -7,7 +7,7 @@ import (
 	"io"
 	"log"
 	"log/slog"
-	"mozhi/internal/img"
+	"mozhi/internal/http"
 	"mozhi/internal/user"
 	"strconv"
 )
@@ -33,15 +33,17 @@ func setRoute(e *gin.Engine) {
 	e.Use(logMiddleware())
 
 	//root := "../../" + config.String("Init.static")
-	root := config.String("Init.static")
+	//root := config.String("Init.static")
 
 	e.GET("/test", test)
-	e.POST("/api/v1/public/img/upload", img.PublicUploadHandler)
-	e.GET("/api/v1/public/imginfo/get", img.PublicDownloadHandler)
-	e.GET("/api/v1/public/img/get", img.PublicDownloadImageHandler)
+	//e.Static("/home", root)
+	e.POST("/api/v1/public/img/upload", http.PublicUploadHandler)
+	e.GET("/api/v1/public/imginfo/get", http.PublicDownloadHandler)
+	e.GET("/api/v1/public/img/get", http.PublicDownloadImageHandler)
+	e.GET("/api/v1/public/infoIdList/get", http.PublicDownloadIdListHandler)
+
 	e.POST("/api/v1/register", user.RegisterHandler)
 	e.POST("/api/v1/login", user.LoginHandler)
-	e.Static("/home", root)
 }
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -77,7 +79,7 @@ func logMiddleware() gin.HandlerFunc {
 			"Request URL", c.Request.URL.Path,
 			"Request Method", c.Request.Method,
 			"Request Header", c.Request.Header,
-			"Request Body", string(bodyBytes), // 打印body的内容
+			//"Request Body", string(bodyBytes), // 打印body的内容
 			"Request Form", c.Request.Form,
 		)
 		c.Next()

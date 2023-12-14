@@ -1,11 +1,9 @@
-package img
+package http
 
 import (
-	"errors"
 	"github.com/gin-gonic/gin"
 	"log/slog"
 	"mozhi/internal/data"
-	"mozhi/internal/support"
 	"net/http"
 	"strconv"
 )
@@ -42,25 +40,15 @@ func PublicDownloadHandler(c *gin.Context) {
 			"msg": "id is not a number",
 		})
 	}
-	userId, assessId, imgId, err := data.GetPublicImgInfo(imgInfoId)
+	userId, assessId, imgId, createTime, err := data.GetPublicImgInfo(imgInfoId)
 	if err != nil {
-		slog.Warn(err.Error())
-		var inkinErr *support.InkinError
-		if errors.As(err, &inkinErr) {
-			// 如果错误是InkinError类型，返回一个特定的响应
-			c.JSON(inkinErr.HttpStatus, gin.H{
-				"msg": inkinErr.Message,
-			})
-		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"msg": "server error",
-			})
-		}
+		handlleError(c, err)
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"userId":   userId,
-			"assessId": assessId,
-			"imgId":    imgId,
+			"userId":     userId,
+			"assessId":   assessId,
+			"imgId":      imgId,
+			"createTime": createTime,
 		})
 	}
 }
@@ -99,18 +87,7 @@ func PublicDownloadImageHandler(c *gin.Context) {
 	}
 	data, err := data.GetPublicImg(imgId)
 	if err != nil {
-		slog.Warn(err.Error())
-		var inkinErr *support.InkinError
-		if errors.As(err, &inkinErr) {
-			// 如果错误是InkinError类型，返回一个特定的响应
-			c.JSON(inkinErr.HttpStatus, gin.H{
-				"msg": inkinErr.Message,
-			})
-		} else {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"msg": "server error",
-			})
-		}
+		handlleError(c, err)
 	} else {
 		c.Data(http.StatusOK, "image/jpeg", data)
 	}

@@ -115,28 +115,28 @@ func GetPublicImg(imageId int) (data []byte, err error) {
 	return data, nil
 }
 
-func GetPublicImgInfo(imageInfoId int) (userId int, assessId int, imgId int, err error) {
+func GetPublicImgInfo(imageInfoId int) (userId int, assessId int, imgId int, createTime string, err error) {
 	db := GetDb()
 	defer db.Close()
 
-	stmt, err := db.Prepare("SELECT user_id, assess_id,img_id FROM image_info WHERE id = ?")
+	stmt, err := db.Prepare("SELECT user_id, assess_id,img_id,create_time FROM image_info WHERE id = ?")
 	if err != nil {
 		slog.Error(err.Error())
-		return 0, 0, 0, err
+		return 0, 0, 0, "", err
 	}
 	rows, err := stmt.Query(imageInfoId)
 	if err != nil {
 		slog.Error(err.Error())
-		return 0, 0, 0, err
+		return 0, 0, 0, "", err
 	}
 	if rows.Next() {
-		err = rows.Scan(&userId, &assessId, &imgId)
+		err = rows.Scan(&userId, &assessId, &imgId, &createTime)
 		if err != nil {
 			slog.Error(err.Error())
-			return 0, 0, 0, err
+			return 0, 0, 0, "", err
 		}
 	} else {
-		return 0, 0, 0, err
+		return 0, 0, 0, "", err
 	}
-	return userId, assessId, imgId, nil
+	return userId, assessId, imgId, createTime, nil
 }

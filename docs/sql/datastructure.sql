@@ -43,7 +43,8 @@ create or replace table inkin.image_info
     img_id    int          not null,
     user_id   int          null comment 'the user who upload the image, 如果user_id为0，then it is a public image',
     assess_id int          null ,
-    md5       varchar(128) null
+    md5       varchar(128) null,
+    create_time datetime     not null default now()
 #     constraint image_info_pk
 #         unique (md5),
 #     constraint image_info_assess_ID_fk
