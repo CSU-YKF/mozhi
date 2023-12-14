@@ -17,10 +17,12 @@ func handlleError(c *gin.Context, err error) {
 			c.JSON(inkinErr.HttpStatus, gin.H{
 				"msg": inkinErr.Message,
 			})
+			return
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"msg": "server error",
 			})
+			return
 		}
 	}
 }

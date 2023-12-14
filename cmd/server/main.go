@@ -25,13 +25,13 @@ func main() {
 	config.AddDriver(yaml.Driver)
 
 	// 加载配置，可以同时传入多个文件
-	err := config.LoadFiles("./config.yaml")
-	err = config.LoadFiles("./config/config.yaml")
-	if err != nil {
-		panic(err)
+	err1 := config.LoadFiles("./config.yaml")
+	err2 := config.LoadFiles("./config/config.yaml")
+	if err1 != nil && err2 != nil {
+		panic("Both config files could not be loaded\t\t" + err1.Error() + "\t\t" + err2.Error())
 	}
 
-	err = config.BindStruct("Init", &initConfig)
+	err := config.BindStruct("Init", &initConfig)
 	if err != nil {
 		panic(err)
 	}

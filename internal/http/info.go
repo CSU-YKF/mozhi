@@ -7,6 +7,9 @@ import (
 
 func PublicDownloadIdListHandler(c *gin.Context) {
 	jsonStr, err := data.GetPublicInfoList()
-	handlleError(c, err)
+	if err != nil {
+		handlleError(c, err)
+		return
+	}
 	c.Data(200, "application/json", []byte(jsonStr))
 }
