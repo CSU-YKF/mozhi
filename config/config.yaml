@@ -3,3 +3,24 @@ Init:
   key:
   port: 9999
   static: ./web/dist
+
+Database:
+  driverName: mysql
+#  dataSource: user:password@tcp(localhost:3306)/dbname?charset=utf8
+  dataSource: root:root@tcp(localhost:3306)/inkin?charset=utf8
+
+Redis:
+  addr: localhost:6379
+  password:
+  db: 0
+Log:
+  location: ./log
+Session:
+    name: sessionId
+    maxAge: 86400
+    path: /
+    domain: lambertrao.top
+    secure: false
+    httpOnly: true
+Algorithm:
+  grpcUrl: 43.139.115.247:6102

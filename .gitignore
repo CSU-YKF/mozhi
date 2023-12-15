@@ -1,0 +1,14 @@
+/algorithms/deepmodel/data/E3C/
+.idea
+./algorithms/.idea
+/algorithms/dataset/data/E3C/
+
+
+.venv
+venv
+python/.venv
+log
+
+web/front/node_modules
+web/front/dist
+web/dist

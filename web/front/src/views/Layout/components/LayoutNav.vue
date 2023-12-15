@@ -11,6 +11,11 @@ const confirm = () => {
   // 2.跳转到登录页
   router.push('/login')
 }
+
+const navigateTo = (path) => {
+      window.location.href = path;
+ }
+
 </script>
 
 <template>
@@ -29,13 +34,11 @@ const confirm = () => {
               </template>
             </el-popconfirm>
           </li>
-          <li><a href="javascript:;">我的订单</a></li>
-          <li><a href="javascript:;">会员中心</a></li>
         </template>
         <template v-else>
-          <li><a href="javascript:;" @click="$router.push('/login')">请先登录</a></li>
-          <li><a href="javascript:;">帮助中心</a></li>
-          <li><a href="javascript:;">关于我们</a></li>
+          <li><a href="javascript:;" @click="$router.push('/login')">会员登录</a></li>
+          <li><a href="javascript:;" @click="navigateTo('/make.html')">linkin介绍</a></li>
+          <li><a href="javascript:;" @click="navigateTo('/painter.html')">关于我们</a></li>
         </template>
       </ul>
     </div>

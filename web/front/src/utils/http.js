@@ -1,5 +1,6 @@
 //axios封装
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 
 // 创建axios实例
 const http = axios.create({
@@ -14,6 +15,10 @@ http.interceptors.request.use(config => {
 
 // axios响应式拦截器
 http.interceptors.response.use(res => res.data, e => {
+  ElMessage({
+    type: 'error',
+    message: e.response.data.message 
+  })  
   return Promise.reject(e)
 })
 
