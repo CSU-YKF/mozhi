@@ -14,12 +14,13 @@ import (
 )
 
 func PublicUploadHandler(c *gin.Context) {
-	imgForm, err := c.FormFile("img")
+	imgForm, err := c.FormFile("file")
 	if err != nil {
-		//TODO
+		slog.Error(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg": "upload failed",
+			"msg": "upload failed, can't form your image type, or have you upload an image? the key is 'file'",
 		})
+		return
 	}
 	fileObject, err := imgForm.Open()
 	if err != nil {
@@ -49,12 +50,21 @@ func PublicUploadHandler(c *gin.Context) {
 		})
 		return
 	}
-	//TODO
-	imgInfoId, err := data.SaveImg(content, 0, 0)
-	handlleError(c, err)
+	assessId, err := data.SaveAssess(0, resp.Score, resp.Comment)
+	if err != nil {
+		handlleError(c, err)
+		return
+	}
+	imgInfoId, imgId, err := data.SaveImg(content, assessId, 0)
+	if err != nil {
+		handlleError(c, err)
+		return
+	}
 	c.JSON(200, gin.H{
 		"score":         resp.Score,
 		"comment":       resp.Comment,
+		"assess_id":     assessId,
+		"image_id":      imgId,
 		"image_info_id": imgInfoId,
 	})
 }

@@ -41,7 +41,7 @@ func setRoute(e *gin.Engine) {
 	e.GET("/api/v1/public/imginfo/get", http.PublicDownloadHandler)
 	e.GET("/api/v1/public/img/get", http.PublicDownloadImageHandler)
 	e.GET("/api/v1/public/infoIdList/get", http.PublicDownloadIdListHandler)
-
+	e.GET("/api/v1/public/assess/get", http.PublicDownloadAssessHandler)
 	e.POST("/api/v1/register", user.RegisterHandler)
 	e.POST("/api/v1/login", user.LoginHandler)
 }

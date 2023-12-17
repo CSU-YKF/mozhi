@@ -7,7 +7,7 @@ import (
 	"log/slog"
 )
 
-func SaveImg(img []byte, assessId int, userId int) (int, error) {
+func SaveImg(img []byte, assessId int64, userId int64) (imageInfoId int64, imageId int64, err error) {
 	db := GetDb()
 	defer db.Close()
 
@@ -15,7 +15,7 @@ func SaveImg(img []byte, assessId int, userId int) (int, error) {
 	tx, err := db.Begin()
 	if err != nil {
 		slog.Error(err.Error())
-		return 0, err
+		return 0, 0, err
 	}
 
 	// 计算图片的MD5
@@ -30,26 +30,26 @@ func SaveImg(img []byte, assessId int, userId int) (int, error) {
 	if err != nil {
 		slog.Error(err.Error())
 		tx.Rollback()
-		return 0, err
+		return 0, 0, err
 	}
 	if rows.Next() {
 		err = rows.Scan(&dataId)
 		if err != nil {
 			slog.Error(err.Error())
 			tx.Rollback()
-			return 0, err
+			return 0, 0, err
 		}
 	} else { // 将图片插入数据库
 		stmt, err := tx.Prepare("INSERT INTO image_data(data) VALUES(?)")
 		if err != nil {
 			slog.Error(err.Error())
-			return 0, err
+			return 0, 0, err
 		}
 		res, err := stmt.Exec(img)
 		if err != nil {
 			slog.Error(err.Error())
 			tx.Rollback() // 如果插入失败，回滚事务
-			return 0, err
+			return 0, 0, err
 		}
 		dataId, _ = res.LastInsertId()
 	}
@@ -58,35 +58,35 @@ func SaveImg(img []byte, assessId int, userId int) (int, error) {
 	tx, err = db.Begin()
 	if err != nil {
 		slog.Error(err.Error())
-		return 0, err
+		return 0, 0, err
 	}
 	// 将图片、MD5和预览图插入数据库
 	stmt, err = tx.Prepare("INSERT INTO image_info(img_id, md5, assess_id, user_id) VALUES(?,?,?,?)")
 	if err != nil {
 		slog.Error(err.Error())
 		tx.Rollback()
-		return 0, err
+		return 0, 0, err
 	}
 	res, err := stmt.Exec(dataId, imgMd5, assessId, userId)
 	if err != nil {
 		slog.Error(err.Error())
 		tx.Rollback() // 如果插入失败，回滚事务
-		return 0, err
+		return 0, 0, err
 	}
 	id, err := res.LastInsertId()
 	if err != nil {
 		slog.Error(err.Error())
 		tx.Rollback() // 如果获取ID失败，回滚事务
-		return 0, err
+		return 0, 0, err
 	}
 
 	err = tx.Commit() // 提交事务
 	if err != nil {
 		slog.Error(err.Error())
-		return 0, err
+		return 0, 0, err
 	}
 
-	return int(id), nil
+	return id, dataId, nil
 }
 
 func GetPublicImg(imageId int) (data []byte, err error) {
