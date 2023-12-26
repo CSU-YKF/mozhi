@@ -7,19 +7,20 @@ from torch.utils.data import DataLoader
 from sklearn.metrics import mean_absolute_error, r2_score
 from e3c import E3C
 from datetime import datetime
+from log import setup_logger
 import logging
 
 # 参数设置
 LR = 1e-3
-BATCH_SIZE = 128
+BATCH_SIZE = 80
 EPOCH = 20
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # 获取当前时间
-time = datetime.now().strftime("%Y-%m-%d-%H-%M")
+time = datetime.now().strftime("%Y-%m-%d-%H")
 
 # 设置日志
-logging.basicConfig(filename=f'./log/{time}.log', level=logging.INFO, format='%(asctime)s %(message)s')
+setup_logger(time)
 
 
 # 加载数据集

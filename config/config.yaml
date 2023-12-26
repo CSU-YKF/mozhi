@@ -22,3 +22,5 @@ Session:
     domain: lambertrao.top
     secure: false
     httpOnly: true
+Algorithm:
+  grpcUrl: 43.139.115.247:6102

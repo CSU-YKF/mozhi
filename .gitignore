@@ -1,7 +1,18 @@
-/algorithms/deepmodel/data/E3C/
+
 .idea
 ./algorithms/.idea
 /algorithms/dataset/data/E3C/
+/algorithms/dataset/data/HWDB/
+/algorithms/deepmodel/data/E3C/
+/algorithms/recognize/runs/
 
-
+.venv
+venv
+python/.venv
 log
+
+web/front/node_modules
+web/front/dist
+web/dist
+*.gnt
+*.pyc
