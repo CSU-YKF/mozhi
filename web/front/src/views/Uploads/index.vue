@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 // import WorksItem from '../Home/components/WorksItem.vue'
 import { UploadFilled } from '@element-plus/icons-vue'
-import { uploadFile } from '@/apis/upload.js';
+// import { uploadFile } from '@/apis/upload.js';
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
@@ -10,30 +10,57 @@ import { useWorksStore } from '@/stores/holeworks'
 import ImgItem from '@/components/ImgTmp.vue';
 import DropDownTag from '@/components/DropDownTagTmp.vue';
 
+//const uploadUrl = 'http://127.0.0.1:4523/m1/2767929-0-default/api/v1/img/upload'
+//http://43.139.115.247:9999/api/v1/public/img/upload
+//http://127.0.0.1:4523/m1/2767929-0-default/api/v1/img/upload
+const uploadAction = ref('http://43.139.115.247:9999/api/v1/public/img/upload');
 const img = useWorksStore()
 const isSearchExecuted = ref(false);
 const uploadInfo = ref({});
-const handleUploadSuccess = async(file) => {
-  const responseData = await uploadFile(file)
-  // 1. 提示用户
-  ElMessage({ type: 'success', message: '上传成功' })
-  uploadInfo.value = 
-      {
-        time: responseData.time,
-        score: responseData.score,
-        comment: responseData.comment,
-        imagePath: responseData.imagePath,
-        // tag: [],
-      };  
-  isSearchExecuted.value = false;
-  img.updateWorks(uploadInfo.value);
-  }
-  
+// const handleUploadSuccess = async(file) => {
+//   const responseData = await uploadFile(file)
+//   console.log('Server Response:', responseData);
+//   // 1. 提示用户
+//   ElMessage({ type: 'success', message: '上传成功' })
+//   uploadInfo.value = 
+//       {
+//         name: responseData.name,
+//         score: responseData.score,
+//         comment: responseData.comment,
+//         imagePath: responseData.imagePath,
+//         // tag: [],
+//       };  
+//   isSearchExecuted.value = false;
+//   img.updateWorks(uploadInfo.value);
+//   }
+
+const  handleUploadSuccess = async(response, file, fileList)=> {
+    console.log(response); // 打印服务器的响应
+    console.log(file);
+    console.log(fileList);
+    console.log(response.image_id);
+    //const responseData = await uploadFile(response.image_id)
+    //console.log(responseData);
+    // 在这里处理服务器的响应
+    //   // 1. 提示用户
+    ElMessage({ type: 'success', message: '上传成功' })
+    uploadInfo.value = 
+        {
+          name: file.name,
+          score: response.score,
+          comment: response.comment,
+          imagePath: 'http://43.139.115.247:9999/api/v1/public/img/get?id='+response.image_id,
+        };  
+    isSearchExecuted.value = false;
+    img.updateWorks(uploadInfo.value);
+    }
+
+
 const router = useRouter()
 
 const gotoPhotoPage = (image) => {
   const PhotoPageParams = {
-    time: image.time,
+    name: image.name,
     score: image.score,
     comment: image.comment,
     imagePath: image.imagePath,
@@ -100,15 +127,15 @@ const  updateImage= () => {
                 作品
               </div>
               <div>
-                <button @click="updateImage">Update Image</button>
+                <button class="update-button" @click="updateImage">Update Image</button>
               </div>
             </div>
             <hr color="#e6ecf0">
            <drop-down-tag tagName="识别结果">
               <div class="body-leftmargin">
                 <div style="display: flex; flex-wrap: wrap;">
-                  <img-item class="body-item" v-for="im in img.getWorks" :key="im.time" :value="im.imagePath"
-                             :score="im.score" :time="im.time" @click="gotoPhotoPage(im)">
+                  <img-item class="body-item" v-for="im in img.getWorks" :key="im.name" :value="im.imagePath"
+                             :score="im.score" :name="im.name" @click="gotoPhotoPage(im)">
                   </img-item>
                 </div>
               </div>
@@ -412,5 +439,24 @@ const  updateImage= () => {
   display: flex;
   align-items: center;
   margin: 15px 0;
+}
+
+.update-button {
+  background-color: #8ddff8;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.update-button:hover {
+  background-color: white;
+  color: black;
 }
 </style>

@@ -15,8 +15,8 @@ const { y } = useScroll(window)
 
       <LayoutHeaderUl />
       <div class="right">
-        <RouterLink to="/">品牌</RouterLink>
-        <RouterLink to="/">专题</RouterLink>
+        <RouterLink to="/">欢迎</RouterLink>
+        <RouterLink to="/">使用</RouterLink>
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@ const { y } = useScroll(window)
 <style scoped lang='scss'>
 .app-header-sticky {
   width: 100%;
-  height: 80px;
+  height: 120px;
   position: fixed;
   left: 0;
   top: 0;
@@ -52,10 +52,10 @@ const { y } = useScroll(window)
 
   .logo {
     margin-left: 60px;
-    margin-right: 40px;
+    margin-right: 20px;
     width: 100px;
     height: 100px;
-    // background: url("@/assets/images/Mozhilogo.png") no-repeat right 10px;
+    background: url("@/assets/images/Mozhilogo.png") no-repeat right 10px;
     background-size: 100px auto;
   }
 

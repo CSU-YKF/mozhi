@@ -6,17 +6,24 @@ export const useWorksStore = defineStore({
   state: () => ({
     works: [
       {
-        time: 2023.11,
-        score: '11',
-        comment: '这是测试',
-        imagePath: '/src/assets/images/works1.jpg',
+        name: '示例1',
+        score: '9.6',
+        comment: '示例1的评论',
+        imagePath: '/src/assets/images/xiaoguo1.jfif',
         // tags: ['标签1'],
       },
       {
-        time: 2023.11,
-        score: '11',
-        comment: '这是测试',
-        imagePath: '/src/assets/images/works2.jpg',
+        name: '示例3',
+        score: '9.2',
+        comment: '示例2的评论',
+        imagePath: '/src/assets/images/xiaoguo2.jpg',
+        // tags: ['标签1'],
+      },
+      {
+        name: '示例3',
+        score: '9.4',
+        comment: '示例3的评论',
+        imagePath: '/src/assets/images/xiaoguo3.jfif',
         // tags: ['标签1'],
       },
     ],

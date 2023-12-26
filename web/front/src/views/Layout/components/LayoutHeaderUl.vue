@@ -24,9 +24,9 @@ const categoryList = ref(staticCategoryList)
         {{ item.name }}
       </RouterLink>
     </li>
-    <li class="home" >
+    <!-- <li class="home" >
         <RouterLink active-class="active" to="/uploads/search">搜索上传</RouterLink>
-    </li>
+    </li> -->
   </ul>
 </template>
 
