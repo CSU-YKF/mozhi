@@ -17,7 +17,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/index.html', // 重定向到/index.html
+      // redirect: '/index.html', // 重定向到/index.html
+      component: index,
       meta: {
         // 在这里设置自定义的meta字段
         pageRefreshed: false, // 默认为false
