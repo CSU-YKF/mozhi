@@ -22,7 +22,7 @@ const handleUploadSuccess = async(file) => {
   ElMessage({ type: 'success', message: '上传成功' })
   uploadInfo.value = 
       {
-        time: responseData.time,
+        name: responseData.name,
         score: responseData.score,
         comment: responseData.comment,
         imagePath: responseData.imagePath,
@@ -64,7 +64,7 @@ const router = useRouter()
 
 const gotoPhotoPage = (image) => {
   const PhotoPageParams = {
-    time: image.time,
+    name: image.name,
     score: image.score,
     comment: image.comment,
     imagePath: image.imagePath,
@@ -97,6 +97,7 @@ const updateImage= () => {
         <input type="text" v-model="searchKeyword" placeholder="搜搜你想评价的字">
       </div>
     </div>
+    <template>
     <!-- 根据isSearchExecuted的值来决定是否显示el-upload -->
     <el-upload v-if="isSearchExecuted" class="upload-demo" drag :action="uploadAction" multiple :on-success="handleUploadSuccess">
       <el-icon class="el-icon--upload my-upload my-uploadsize"><upload-filled /></el-icon>
@@ -109,7 +110,7 @@ const updateImage= () => {
         </div>
       </template>
     </el-upload>
-
+  </template>
     <div class="body">
       <div class="main-body">
         <!--画作展示栏-->
@@ -127,8 +128,8 @@ const updateImage= () => {
            <drop-down-tag v-for="word in store.getWordlist" :key="word.wordname" :tagName="word.wordname">
               <div class="body-leftmargin">
                 <div style="display: flex; flex-wrap: wrap;">
-                  <img-item class="body-item" v-for="im in img.getWorks" :key="im.time" :value="im.imagePath"
-                             :score="im.score" :time="im.time" @click="gotoPhotoPage(im)">
+                  <img-item class="body-item" v-for="im in img.getWorks" :key="im.imagePath" :value="im.imagePath"
+                             :score="im.score" :name="im.name" @click="gotoPhotoPage(im)">
                   </img-item>
                 </div>
               </div>

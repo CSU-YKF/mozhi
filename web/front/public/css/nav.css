@@ -56,7 +56,7 @@ body .shell-main-nav ul .nav-box {
   position: absolute;
   bottom: 1px;
   left: 0;
-  width: 115px;
+  width: 150px;
   height: 5px;
   border-radius: 2px;
   background-color: #b444ff;
@@ -79,27 +79,27 @@ body .shell-main-nav ul li a {
 }
 body .shell-main-nav ul li:nth-child(1):hover~.nav-box {
   left: 0px;
-  background-color: red;
+  background-color: #7df88e;
 }
 body .shell-main-nav ul li:nth-child(2):hover~.nav-box {
-  left: 120px;
+  left: 150px;
   background-color: red;
 }
 
 body .shell-main-nav ul li:nth-child(3):hover~.nav-box {
-  left: 240px;
+  left: 300px;
   background-color: #8da1f8;
 }
 
 body .shell-main-nav ul li:nth-child(4):hover~.nav-box {
-  left: 360px;
+  left: 450px;
   background-color: #ffb1b1;
 }
 
-body .shell-main-nav ul li:nth-child(5):hover~.nav-box {
+/* body .shell-main-nav ul li:nth-child(5):hover~.nav-box {
   left: 480px;
   background-color: #7df88e;
-}
+} */
 /* media */
 @media (max-width:768px) {
   body .shell-main-nav ul {

@@ -5,10 +5,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login/index.vue'
 import Layout from '@/views/Layout/index.vue'
 import Uploads from '@/views/Uploads/index.vue'
-import SubUploads from '@/views/SubUploads/index.vue' 
+//import SubUploads from '@/views/SubUploads/index.vue' 
 import Register from '@/views/Register/index.vue'
 import index from '@/views/newhome/index.vue'
 import PhotoPage from '@/views/PhotoPage.vue'
+// import test from '@/views/test.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +17,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/index.html', // 重定向到/index.html
+      // redirect: '/index.html', // 重定向到/index.html
+      component: index,
       meta: {
         // 在这里设置自定义的meta字段
         pageRefreshed: false, // 默认为false
@@ -30,13 +32,19 @@ const router = createRouter({
           path: '/',
           component: Layout, 
           children: [
-            {
-              path: 'uploads/search',
-              component: SubUploads
-            },
+            // {
+            //   path: 'uploads/search',
+            //   component: SubUploads
+            // },
             {
               path: 'uploads/upload',
               component: Uploads
+            },
+            {
+              path: 'PhotoPage/:name/:score/:comment/:imagePath',
+              name: 'PhotoPage',
+              component: PhotoPage,
+              props: true
             },
             ]
       },
@@ -48,12 +56,11 @@ const router = createRouter({
       path: '/register',
       component: Register
     },
-    {
-      path: '/PhotoPage/:time/:score/:comment/:imagePath',
-      name: 'PhotoPage',
-      component: PhotoPage,
-      props: true
-    }
+    
+    // {
+    //   path: '/test',
+    //   component: test
+    // }
   ],
   // 路由滚动行为定制
   scrollBehavior () {

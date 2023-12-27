@@ -11,37 +11,40 @@
     </div>
     </div>
     
-    <div class="shell-main-header">
     <div class="body">
         <div class="body-main">
+            <div class="shell-main-header">
             <div class="margin-twin">
                 <div class="body-left shell-main-header-left">
-                    <img :src="img.url" alt="" class="body-img images"> <!--图片展示区-->
+                    <img :src="img.url" alt="" class="images"> <!--图片展示区-->
                 </div>
                 <div class="body-right">
                     <div class="body-right-item">
                         <div class="item-box">
                             <div class="item-box-info">
-                                <div class="body-text1">得分为：
+                                <div class="body-text1">
+                                    <div class="numbers">{{ img.score}}</div>
                                 </div>
-                                <div class="body-text1">{{ img.score}}</div>
                             </div>
                         </div>
                         <hr style="margin: 0;" class="shell-main-bottom-bottom">
+                    
                         <div class="item-box">
                             <div style="margin: 0 20px;">
+                                <div class="body-text2" style="font-weight: bolder;">作品名</div>
+                                <br>
+                                <div class="body-text2">{{ img.name }}</div>
+                            </div>
+                        </div>
+                        <hr style="margin: 0;" class="shell-main-bottom-bottom">
+                        <div class="item-box" >
+                            <div style="margin: 0 20px;">
                                 <div class="body-text2" style="font-weight: bolder;">AI评价：</div>
+                                <br>
                                 <div class="body-text2">{{ img.comment }}</div>
                             </div>
                         </div>
-                        <hr style="margin: 0;">
-                        <div class="item-box">
-                            <div style="margin: 0 20px;">
-                                <div class="body-text2" style="font-weight: bolder;">上传时间</div>
-                                <div class="body-text2">{{ img.time }}</div><!--时间-->
-                            </div>
-                        </div>
-                    </div>
+                        <hr style="margin: 0;" class="shell-main-bottom-bottom">
                     <!-- <div class="body-right-item">
                         <div class="item-box">
                             <div style="margin: 0 20px;">
@@ -57,9 +60,10 @@
                     <div class="body-right-item">
                         <div class="item-box">
                             <div style="margin: 0 20px;">
-                                
-                                <button class="body-text1" @click="$router.go(-1)">返回</button>
+                                <button class="body-text1 button" @click="$router.go(-1)">返回</button>
                             </div>
+                            <hr style="margin: 0;" >
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -68,6 +72,7 @@
     </div>
     </div>
     </div>
+    
     <!-- <div class="shell-main-footer">
                     <span>linkin</span>
                 </div> -->
@@ -78,13 +83,13 @@
 
 export default {
     
-    props: ['time', 'score', 'comment', 'imagePath'],
+    props: ['name', 'score', 'comment', 'imagePath'],
     computed: {
         img() {
         return {
             url: this.imagePath,
             score: this.score,
-            time: this.time, // 如果你有一个名为 'name' 的路由参数，你应该在这里使用它
+            name: this.name, // 如果你有一个名为 'name' 的路由参数，你应该在这里使用它
             comment: this.comment
         }
         }
@@ -94,20 +99,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.numbers {
+  font-size: 108px;
+  color: #ff9b04;
+  font-family: 'Roboto', sans-serif;
+}
 .bread-container {
   padding: 25px 0;
   color: #666;
-}
-
-.sub-container {
-  padding: 20px 10px;
-  background-color: #fff;
 }
 .body-main {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px;
+    height: 100vh; 
+    
 }
 
 .body-left {
@@ -160,13 +169,7 @@ export default {
     justify-content: center;
 }
 
-.body-img {
-    width: 800px;
-    height: auto;
-    margin-bottom: 35px;
-    position: relative; /* 或者 absolute、fixed、sticky */
-    z-index: 0;
-}
+
 
 .body-right-item {
     width: 100%;
@@ -184,8 +187,9 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
-    position: relative; /* 或者 absolute、fixed、sticky */
+   // position: relative; /* 或者 absolute、fixed、sticky */
     z-index: 2;
+    overflow: auto;
 
 }
 
@@ -194,7 +198,9 @@ export default {
     width: calc(100% - 40px);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    overflow-wrap: break-word; 
+    word-wrap: break-word;
 }
 
 .body-text1 {
@@ -204,6 +210,10 @@ export default {
     line-break: anywhere;
     position: relative; /* 或者 absolute、fixed、sticky */
     z-index: 2;
+    transform: scale(1.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .body-text2 {
@@ -213,43 +223,29 @@ export default {
     font-family: 微软雅黑;
     position: relative; /* 或者 absolute、fixed、sticky */
     z-index: 2;
+    //transform: scale(1.2);
+    overflow-wrap: break-word; 
+    word-wrap: break-word;
 }
-
-.like-logo {
-    width: 20px;
-    height: 20px;
-    text-align: left;
-    font-size: 27px;
-    margin-top: 10px;
-    background-image: url("../assets/like-logo.png");
-    background-size: cover;
+.button {
+    background-color: #8ddff8; /* 设置背景色为蓝色 */
+    color: white; /* 设置文字颜色为白色 */
+    border: none; /* 移除边框 */
+    padding: 10px 20px; /* 设置内边距 */
+    text-align: center; /* 文字居中 */
+    text-decoration: none; /* 移除下划线 */
+    display: inline-block; /* 使得元素可以设置宽度和高度 */
+    font-size: 16px; /* 设置字体大小 */
+    margin: 4px 2px; /* 设置外边距 */
+    cursor: pointer; /* 鼠标悬停时变为手形 */
 }
-.dislike-logo {
-    width: 20px;
-    height: 20px;
-    text-align: left;
-    font-size: 27px;
-    margin-top: 10px;
-    background-image: url("../assets/liked-logo.png");
-    background-size: cover;
-}
-
-
-.tag-item {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.tag {
-    color: white;
-    background-color: yellowgreen;
-    padding: 4px 10px;
-    border-radius: 6px;
-    margin: 5px 5px 0 0;
+.button:hover {
+  background-color: white;
+  color: black;
 }
 .images {
-            width: 400px;
-            height: auto;
+            width: 350px;
+            height: 450px;
             column-count: 4;
             column-gap: 20px;
             margin-top: 20px;
@@ -259,45 +255,47 @@ export default {
             overflow: hidden;
             border: #000 solid 2px;
             transition: .3s;
-            opacity: 0.8;
+            opacity: 0.9;
+            padding: 5px;
    
         }
-        .images::before{
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%);
-            height: 100%;
-            width: 500px;
-            background-image: linear-gradient(to bottom, #a1e6ff, #a8ffe2, #a1e6ff);
-            z-index: -9;
-        }
-        .images img:hover {
-            transform: scale(1.1);
-            opacity: 1;
-        }
+.images::before{
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    height: 100%;
+    width: 500px;
+    background-image: linear-gradient(to bottom, #a1e6ff, #a8ffe2, #a1e6ff);
+    z-index: 0;
+}
+.images:hover {
+    transform: scale(1.05);
+    opacity: 1;
+}
 
 body .shell-main {
-  width: 100%;
-  height: auto;
-  position: relative;
-  transition: .2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 100px;
+    width: 100%;
+    height: auto;
+    position: relative;
+    transition: .2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
 }
 
 body .shell-main::before {
-  content: '';
-  width: 250px;
-  height: 100%;
-  background-image: linear-gradient(to bottom, #a1e6ff, #a8ffe2, #a1e6ff);
-  position: absolute;
-  transform: translate(-130%, 0);
-   z-index: 0;
-  bottom: 0;
-  opacity: 0.7;
+    content: '';
+    width: 250px;
+    height: 100%;
+    background-image: linear-gradient(to bottom, #a1e6ff, #a8ffe2, #a1e6ff);
+    position: absolute;
+    transform: translate(-130%, 0);
+    z-index: 0;
+    bottom: 0;
+    opacity: 0.7;
+    
 }
 
 body .shell-main::after {
@@ -307,36 +305,64 @@ body .shell-main::after {
   background-image: linear-gradient(to right, #a1e6ff 0%, #a8ffe2 50%, transparent 50%, transparent 100%);
   background-size: 90px 100%;
   position: absolute;
-  transform: translate(125%);
+  transform: translate(355%);
   z-index: 0;
   opacity: 0.7;
+  
 }
 body .shell-main-bottom-bottom::before {
-  content: '';
-  width: 250px;
-  height: 250px;
-  border: 20px solid rgba(0, 255, 255, 0.3);
-  position: absolute;
-  border-radius: 10px;
-  right: 120px;
-  top: 170px;
-  transform: rotate(30deg) translate(-50%, -50%);
-  animation: transform 4s infinite;
-  opacity: 0.8;
-  z-index: 0;
+    content: '';
+    width: 250px;
+    height: 250px;
+    border: 20px solid rgba(0, 255, 255, 0.167);
+    position: absolute;
+    border-radius: 10px;
+    right: 250px;
+    top: 50px;
+    transform: rotate(30deg) translate(-50%, -50%);
+    animation: transform 4s infinite;
+    opacity: 0.8;
+    z-index: 0;
+    animation: transform 4s infinite;
+    @keyframes transform {
+        0% {
+            transform: rotate(30deg) translate(0);
+        }
+
+        50% {
+            transform: rotate(40deg) translate(10px);
+        }
+
+        100% {
+            transform: rotate(30deg) translate(0px);
+        }
+    }
 }
 
 body .shell-main-header-left::before {
-  content: '';
-  width: 250px;
-  height: 250px;
-  border: 20px solid rgba(0, 255, 255, 0.3);
-  position: absolute;
-  bottom: -30px;
-  left: -140px;
-  border-radius: 10px;
-  transform: rotate(30deg);
-  animation: transform 4s infinite;
+    content: '';
+    width: 250px;
+    height: 250px;
+    border: 20px solid rgba(0, 255, 255, 0.3);
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    border-radius: 10px;
+    transform: rotate(30deg);
+    animation: transform 4s infinite;
+    @keyframes transform {
+        0% {
+            transform: rotate(30deg) translate(0);
+        }
+    
+        50% {
+            transform: rotate(40deg) translate(10px);
+        }
+    
+        100% {
+            transform: rotate(30deg) translate(0px);
+        }
+    }
 }
 
  

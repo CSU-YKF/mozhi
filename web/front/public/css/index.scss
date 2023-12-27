@@ -125,7 +125,7 @@
                         position: absolute;
                         bottom: 1px;
                         left: 0;
-                        width: 115px;
+                        width: 150px;
                         height: 5px;
                         border-radius: 2px;
                         background-color: rgb(180, 68, 255);
@@ -145,21 +145,21 @@
                         }
                     }
                     li:nth-child(2):hover~.nav-box{
-                        left: (120px*1);
+                        left: (150px*1);
                         background-color: rgb(255, 0, 0);
                     }
                     li:nth-child(3):hover~.nav-box{
-                        left: (120px*2);
+                        left: (150px*2);
                         background-color: #8da1f8;
                     }
                     li:nth-child(4):hover~.nav-box{
-                        left: (120px*3);
+                        left: (150px*3);
                         background-color: rgb(255, 177, 177);
                     }
-                    li:nth-child(5):hover~.nav-box{
-                        left: (120px*4);
-                        background-color: rgb(125, 248, 142);
-                    }
+                    // li:nth-child(5):hover~.nav-box{
+                    //     left: (120px*4);
+                    //     background-color: rgb(125, 248, 142);
+                    // }
                 }
             }
             &-lbt{
