@@ -4,7 +4,8 @@ import { ElMessage } from 'element-plus'
 
 // 创建axios实例
 const http = axios.create({
-  baseURL: 'http://127.0.0.1:4523/m1/2767929-0-default',
+  //baseURL: 'http://127.0.0.1:4523/m1/2767929-0-default',
+  baseURL: 'http://43.139.115.247:9999',
   timeout: 5000
 })
 

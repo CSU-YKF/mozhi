@@ -18,7 +18,7 @@ import request from '@/utils/http'
 // const userStore = useUserStore()
 
 // 处理搜索请求
-export const uploadFile = ({ file }) => {
+export const uploadFile = (id) => {
   // if (!userStore.userInfo.token) {
   //   return  request({
   //     url: '/api/v1/public/img/upload',
@@ -29,10 +29,10 @@ export const uploadFile = ({ file }) => {
   //   })
   // }
   return request({
-    url: '/api/v1/img/upload',
-    method: 'POST',
-    data: {
-      file
+    url: '/api/v1/public/img/get',
+    method: 'GET',
+    params: {
+      id: id
     }
   })
 }

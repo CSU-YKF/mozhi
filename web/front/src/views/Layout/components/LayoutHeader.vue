@@ -25,13 +25,15 @@ import 'element-plus/theme-chalk/el-message.css'
   }
 
   .Mozhilogo {
-    width: 300px;
+    width: 180px;
 
     a {
       display: block;
       margin-left: 60px;
-      height: 90px;
-      width: 120px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      height: 100px;
+      width: 100px;
       text-indent: -9999px;
       background: url('@/assets/images/Mozhilogo.png') no-repeat center 10px / contain;
     }

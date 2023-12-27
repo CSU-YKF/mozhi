@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>画师预约</title>
+    <title>功能体验</title>
     <link rel="stylesheet" href="./css/nav.css">
     <link rel="stylesheet" href="./css/all.css">
     <link rel="stylesheet" href="./css/css.css">
@@ -28,9 +28,11 @@
         }
 
         body.show-password {
-            --bgColor: rgba(0, 0, 0, 0.9);
+            --bgColor: rgba(0, 0, 0, 1);
             --inputColor: white;
             --outlineColor: rgb(151, 247, 218);
+            position: relative;
+            z-index: -1;
         }
 
         form {
@@ -49,17 +51,17 @@
         label,
         input,
         button {
-            font-size: 1.5rem;
+            font-size: 5.5rem;
             font-family: monospace;
             color: var(--inputColor);
         }
 
         label:focus,
         input:focus,
-        button:focus {
+        /* button:focus {
             outline: 3px solid var(--outlineColor);
             outline-offset: 2px;
-        }
+        } */
 
         label::-moz-focus-inner,
         input::-moz-focus-inner,
@@ -67,8 +69,8 @@
             border: none;
         }
 
-        label[id=password],
-        input[id=password],
+        /* label[id=password],
+        input[id=password], */
         button[id=password] {
             color: black;
         }
@@ -80,21 +82,26 @@
         [id=submit] {
             cursor: pointer;
             margin: 20px 0 0 2px;
-            padding: 0.75rem 1.25rem;
+            padding: 0.75rem 1.25rem; 
             color: var(--bgColor);
-            background-color: var(--inputColor);
-            box-shadow: 4px 4px 0 rgba(30, 144, 255, 0.2);
+            background-color: transparent;
+            border: none; /* 去掉边框 */
+            box-shadow: none; /* 去掉阴影 */
+            position: relative;
+            left: -550px; 
+            top:-125px;
+            z-index: 0;
+            font-size: 4.5rem;
         }
-
         [id=submit]:active {
             transform: translateY(1px);
         }
 
-        .input-wrapper {
+        /* .input-wrapper {
             position: relative;
-        }
+        } */
 
-        input {
+        /* input {
             padding: 0.75rem 4rem 0.75rem 0.75rem;
             width: 100%;
             border: 2px solid transparent;
@@ -102,9 +109,9 @@
             background-color: transparent;
             box-shadow: inset 0 0 0 2px black, inset 6px 6px 0 rgba(30, 144, 255, 0.2), 3px 3px 0 rgba(30, 144, 255, 0.2);
             -webkit-appearance: none;
-        }
+        } */
 
-        input:focus {
+        /* input:focus {
             outline-offset: 1px;
         }
 
@@ -116,10 +123,10 @@
         .show-password input:focus {
             outline: none;
             border-color: rgb(151, 247, 218);
-        }
+        } */
 
         [id=eyeball] {
-            --size: 1.25rem;
+            --size: 3.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -127,10 +134,11 @@
             outline: none;
             position: absolute;
             top: 50%;
-            right: 0.75rem;
+            right: 10.75rem;
             border: none;
             background-color: transparent;
             transform: translateY(-50%);
+            outline: none;
         }
 
         [id=eyeball]:active {
@@ -140,7 +148,7 @@
         .eye {
             width: var(--size);
             height: var(--size);
-            border: 2px solid var(--inputColor);
+            border: 6px solid var(--inputColor);
             border-radius: calc(var(--size) / 1.5) 0;
             transform: rotate(45deg);
         }
@@ -173,7 +181,7 @@
         [id=beam] {
             position: absolute;
             top: 50%;
-            right: 1.75rem;
+            right: 12.75rem;
             -webkit-clip-path: polygon(100% 50%, 100% 50%, 0 0, 0 100%);
             clip-path: polygon(100% 50%, 100% 50%, 0 0, 0 100%);
             width: 100vw;
@@ -209,20 +217,23 @@
             <div class="shell-main-nav">
                 <div class="logo">
                     <img src="./image/logo.jpg" alt="">
-                    <span>山羊の前端小窝</span>
+                    <span>CSU-YFK</span>
                 </div>
                 <ul>
-                    <li><a href="./index.html">关于我们</a></li>
-                    <li><a href="./Template.html">网页模板</a></li>
-                    <li><a href="./make.html">网页制作</a></li>
-                    <li><a href="./painter.html">画师预约</a></li>
-                    <li><a href="./Login.html">登录</a></li>
+                    <li><a href="./index.html">inkin介绍</a></li>
+    
+                    <li><a href="./make.html">inkin制作</a></li>
+                    <li><a href="./painter.html">CSU-YFK</a></li>
+                    <li><a href="./Login.html">功能体验</a></li>
                     <div class="nav-box"></div>
                 </ul>
             </div>
         </div>
-        <form onsubmit="return false">
-            <div class="form-item">
+        <div id="centerText" style="font-family: 'font'; font-size: 2em; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+            页面跳转的功能似乎被藏起来了，如果你能找到它，就可以免费使用我们的功能了哦！
+        </div>
+        <!-- <form onsubmit="return false"> -->
+            <!-- <div class="form-item">
                 <label>访问用户</label>
                 <div class="input-wrapper">
                     <input type="text" id="username" autocomplete="off" autocorrect="off" autocapitalize="off"
@@ -233,92 +244,97 @@
                 <label>随便输入</label>
                 <div class="input-wrapper">
                     <input type="password" id="password" autocomplete="off" autocorrect="off" autocapitalize="off"
-                        spellcheck="false" data-lpignore="true" />
-                    <button type="button" id="eyeball" onclick="toggleGoButton()">
-                        <div class="eye"></div>
-                    </button>
-                    <div id="beam"></div>
-                </div>
-            </div>
-            <button id="submit" style="display: block;">Go!</button>
-        </form>
+                        spellcheck="false" data-lpignore="true" /> -->
+        <button type="button" id="eyeball" onclick="toggleGoButton()">
+            <div class="eye"></div>
+        </button>
+        <div id="beam"></div>
+                <!-- </div>
+            </div> -->
+            <button id="submit" style="display: none;"onclick="location.href='/uploads/upload'">Go!</button>
+        <!-- </form> -->
         <div class="shell-main-footer">
-            <span>版权所有-山羊の前端小窝</span>
+            <span>Inkin</span>
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector('form');
-        form.addEventListener('submit', handleFormSubmit);
+        // document.addEventListener("DOMContentLoaded", function () {
+        // const form = document.querySelector('form');
+        // form.addEventListener('submit', handleFormSubmit);
 
-        function handleFormSubmit(event) {
-            event.preventDefault();
+    //     function handleFormSubmit(event) {
+    //         event.preventDefault();
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+    //         const username = document.getElementById('username').value;
+    //         const password = document.getElementById('password').value;
 
-            // 确保提供了用户名和密码
-            if (!username || !password) {
-                alert('请填写用户名和密码。');
-                return;
-            }
+    //         // 确保提供了用户名和密码
+    //         if (!username || !password) {
+    //             alert('请填写用户名和密码。');
+    //             return;
+    //         }
 
-            const requestData = {
-                account: username,
-                password: password
-            };
+    //         const requestData = {
+    //             account: username,
+    //             password: password
+    //         };
 
-            fetch('http://127.0.0.1:4523/m1/2767929-0-default/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('网络响应异常');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // 手动重定向到你想要的页面
-                window.location.href = '/uploads/upload'; // 例如，重定向到根路径
-            })
-            .catch(error => {
-                console.error('登录过程中发生错误:', error);
-                alert('登录过程中发生错误，请重试。');
-            });
+    //         fetch('http://127.0.0.1:4523/m1/2767929-0-default/login', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(requestData)
+    //         })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('网络响应异常');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             // 手动重定向到你想要的页面
+    //             window.location.href = '/uploads/upload'; // 例如，重定向到根路径
+    //         })
+    //         .catch(error => {
+    //             console.error('登录过程中发生错误:', error);
+    //             alert('登录过程中发生错误，请重试。');
+    //         });
             window.toggleGoButton = function() {
             const goButton = document.getElementById('submit');
             if (goButton.style.display === 'none') {
                 goButton.style.display = 'block';
-            } else {
-                goButton.style.display = 'none';
-            }
+                //goButton.style.backgroundColor = rgb(151, 247, 218);
+                centerText.style.display = 'none';
+                } else {
+                    goButton.style.display = 'none';
+                    centerText.style.display = 'block';
+                }
         }
-        }
-    });
+    //     }
+    // });
         const root = document.documentElement;
         const eye = document.getElementById('eyeball');
         const beam = document.getElementById('beam');
-        const passwordInput = document.getElementById('password');
+        // const passwordInput = document.getElementById('password');
         const footer = document.querySelector('.shell-main-footer')
 
         root.addEventListener('mousemove', (e) => {
             let rect = beam.getBoundingClientRect();
-            let mouseX = rect.right + (rect.width / 2);
-            let mouseY = rect.top + (rect.height / 2);
+            let mouseX = rect.right + (rect.width);
+            //let mouseX = rect.right;
+            let mouseY = rect.top;
             let rad = Math.atan2(mouseX - e.pageX, mouseY - e.pageY);
-            let degrees = (rad * (20 / Math.PI) * -1) - 350;
+            //let rad = Math.atan2(e.pageY - mouseY, e.pageX - mouseX);
+            let degrees = (rad * (180 / Math.PI) * -1) + 95;
             root.style.setProperty('--beamDegrees', `${degrees}deg`);
         });
 
         eye.addEventListener('click', e => {
             e.preventDefault();
             document.body.classList.toggle('show-password');
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password'
-            passwordInput.focus();
+            // passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password'
+            // passwordInput.focus();
             
         });
     </script>

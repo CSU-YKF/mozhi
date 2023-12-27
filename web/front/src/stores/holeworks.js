@@ -6,17 +6,17 @@ export const useWorksStore = defineStore({
   state: () => ({
     works: [
       {
-        time: 2023.11,
-        score: '91',
-        comment: '这是测试2',
-        imagePath: '/src/assets/images/works3.jpg',
+        name: '示例1:德',
+        score: '7.72',
+        comment: '书法作品笔力雄健，结构疏密有致，但笔画略显生硬，未见韵律。',
+        imagePath: '/src/assets/images/exp1.png',
         // tags: ['标签1'],
       },
       {
-        time: 2023.11,
-        score: '11',
-        comment: '这是测试2',
-        imagePath: '/src/assets/images/works4.jpg',
+        name: '示例2:仁',
+        score: '8.8',
+        comment: '笔画简洁流畅，结构均衡。',
+        imagePath: '/src/assets/images/exp2.png',
         // tags: ['标签1'],
       },
     ],
