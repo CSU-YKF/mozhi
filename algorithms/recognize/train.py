@@ -1,5 +1,5 @@
 import torch
-
+import numpy as np
 import torch.nn.functional as F
 from sklearn.metrics import roc_auc_score, accuracy_score
 
@@ -18,6 +18,8 @@ def train_one_epoch(epoch_index, num_epochs, model, optimizer, scheduler, datalo
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+
+        scheduler.step()
 
         # Record loss and learning rate
         writer.add_scalar('Loss/train', loss.item(), epoch_index * len(dataloader) + batch_index)
@@ -52,4 +54,3 @@ def validate(epoch_index, model, dataloader, writer, device):
     writer.add_scalar('Accuracy/validate', acc, epoch_index)
 
     return auc, acc
-
