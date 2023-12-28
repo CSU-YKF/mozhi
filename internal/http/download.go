@@ -3,6 +3,7 @@ package http
 import (
 	"github.com/gin-gonic/gin"
 	"log/slog"
+	"math"
 	"mozhi/internal/data"
 	"mozhi/internal/support"
 	"net/http"
@@ -71,7 +72,7 @@ func PublicDownloadAssessHandler(c *gin.Context) {
 		return
 	} else {
 		c.JSON(http.StatusOK, gin.H{
-			"score":   score,
+			"score":   math.Trunc(float64(score*100)) / 100,
 			"comment": comment,
 		})
 	}
