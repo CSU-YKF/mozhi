@@ -17,7 +17,7 @@ class Assess(rpc.AssessServiceServicer):
         img = Image.open(img_stream)
         img_np = np.array(img)
         print(f"Load success, {img_np.shape}")
-        s = score(img)
+        s = score(img)+2
         c = comments()
         return pb.AssessResponse(score=s, comment=c)
         # Image.open(request.img).show()
