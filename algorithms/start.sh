@@ -1,2 +1,2 @@
-conda activate base
-python main.py&
+conda activate
+python main.py &
