@@ -14,5 +14,13 @@ log
 web/front/node_modules
 web/front/dist
 web/dist
+<<<<<<< Updated upstream
 *.gnt
 *.pyc
+=======
+*.png
+*.zip
+*.txt
+*.png
+*.jpg
+>>>>>>> Stashed changes
