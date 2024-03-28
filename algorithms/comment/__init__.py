@@ -1,1 +1,1 @@
-from gpt_comment import gpt_comment
+from comment.gpt_comment import gpt_comment

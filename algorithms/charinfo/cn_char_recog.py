@@ -1,19 +1,20 @@
+import os
 import base64
 import requests
 
 
+BAIDU_ACCESS_TOKEN = os.getenv("BAIDU_ACCESS_TOKEN")
+
 # 百度云 API
-def recog_cn_char(img_bin, access_token):
+def recog_cn_char(img_base64):
     url_root = 'https://aip.baidubce.com/rest/2.0/ocr/v1/handwriting'
 
-    url = f'{url_root}?access_token={access_token}'
-
-    img_b64 = base64.b64encode(img_bin)
+    url = f'{url_root}?access_token={BAIDU_ACCESS_TOKEN}'
 
     response = requests.post(url, headers={
         'Content-Type': 'application/x-www-form-urlencoded'
     }, data={
-        'image': img_b64
+        'image': img_base64
     })
 
     if response.status_code != 200:
