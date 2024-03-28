@@ -41,7 +41,7 @@ const router = createRouter({
               component: Uploads
             },
             {
-              path: 'PhotoPage/:name/:score/:comment/:imagePath',
+              path: 'PhotoPage/:id/:name/:score/:comment/:imagePath/',
               name: 'PhotoPage',
               component: PhotoPage,
               props: true

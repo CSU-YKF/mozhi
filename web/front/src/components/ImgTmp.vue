@@ -5,7 +5,7 @@
             <div class="body-content" :class="bodyContentClass[isHovered]">
                 <div class="body-content-text">
                     <div v-if="score">
-                        作品得分：{{ this.score }}
+                        作品得分：{{ Number(this.score).toFixed(1) }}
                     </div>
                     <div v-if="time">
                         上传时间：{{ this.time }}

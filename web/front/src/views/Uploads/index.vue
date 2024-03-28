@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import {onMounted, ref} from 'vue';
 // import WorksItem from '../Home/components/WorksItem.vue'
 import { UploadFilled } from '@element-plus/icons-vue'
 // import { uploadFile } from '@/apis/upload.js';
@@ -9,14 +9,17 @@ import { useRouter } from 'vue-router'
 import { useWorksStore } from '@/stores/holeworks'
 import ImgItem from '@/components/ImgTmp.vue';
 import DropDownTag from '@/components/DropDownTagTmp.vue';
+import axios from "axios";
+import Cookies from "js-cookie"
 
 //const uploadUrl = 'http://127.0.0.1:4523/m1/2767929-0-default/api/v1/img/upload'
 //http://43.139.115.247:9999/api/v1/public/img/upload
 //http://127.0.0.1:4523/m1/2767929-0-default/api/v1/img/upload
-const uploadAction = ref('http://43.139.115.247:9999/api/v1/public/img/upload');
+//http://localhost:8080/api/v1/public/img/upload
+// const uploadAction = ref('http://localhost:8080/api/v1/public/img/upload');
 const img = useWorksStore()
-const isSearchExecuted = ref(false);
-const uploadInfo = ref({});
+// const isSearchExecuted = ref(false);
+// const uploadInfo = ref({});
 // const handleUploadSuccess = async(file) => {
 //   const responseData = await uploadFile(file)
 //   console.log('Server Response:', responseData);
@@ -34,44 +37,117 @@ const uploadInfo = ref({});
 //   img.updateWorks(uploadInfo.value);
 //   }
 
-const  handleUploadSuccess = async(response, file, fileList)=> {
-    console.log(response); // 打印服务器的响应
-    console.log(file);
-    console.log(fileList);
-    console.log(response.image_id);
-    //const responseData = await uploadFile(response.image_id)
-    //console.log(responseData);
-    // 在这里处理服务器的响应
-    //   // 1. 提示用户
-    ElMessage({ type: 'success', message: '上传成功' })
-    uploadInfo.value = 
-        {
-          name: file.name,
-          score: response.score,
-          comment: response.comment,
-          imagePath: 'http://43.139.115.247:9999/api/v1/public/img/get?id='+response.image_id,
-        };  
-    isSearchExecuted.value = false;
-    img.updateWorks(uploadInfo.value);
+const newToken = () => {
+    axios.get('http://localhost:8080/getToken')
+            .then((response) => {
+                Cookies.set("token", response.data);
+            }).catch((error) => {
+                console.log(error)
+            }
+    );
+}
+
+onMounted(() => {
+    init();
+})
+
+const init = () => {
+    if (Cookies.get("token") === undefined) {
+        newToken();
+    } else {
+        axios.get('http://localhost:8080/verify?token=' + Cookies.get("token"))
+                .catch((error) => {
+                    console.log(error);
+                    newToken();
+                }
+        )
     }
+    updateImage();
+}
+
+const uploadConfig = {
+    headers: {
+        "Content-Type": "multipart/form-data"
+    }
+}
+
+const uploadRequest = (request) => {
+    console.log(request);
+    ElMessage({ type: 'info', message: '正在生成评价，请耐心等待...' });
+    axios.post(
+            'http://localhost:8080/upload?token=' + Cookies.get("token"),
+            {'file': request.file},
+            uploadConfig
+    ).then((response) => {
+        console.log(response);
+        ElMessage({ type: 'success', message: '评价生成成功' });
+        updateImage();
+    }).catch((error) => {
+        console.log(error);
+        ElMessage({ type: 'error', message: '上传失败，请重试' });
+    });
+}
+
+const updateImage = () => {
+    axios.get('http://localhost:8080/queryAll?token=' + Cookies.get("token"))
+            .then((response) => {
+                const data = response.data;
+                var works = [];
+                for (let i = 0; i < data.length; i++) {
+                    works.push({
+                        id: data[i].id,
+                        name: data[i].charName,
+                        score: data[i].score,
+                        comment: data[i].comment,
+                        imagePath: 'http://localhost:8080/getImage?id=' + data[i].id,
+                        date: new Date(data[i].uploadDate.slice(0, 10))
+                    });
+
+                }
+                img.setWorks(works);
+            }).catch((error) => {
+                console.log(error);
+            }
+    );
+}
+
+// const handleUploadSuccess = async(response, file, fileList)=> {
+//     console.log(response); // 打印服务器的响应
+//     console.log(file);
+//     console.log(fileList);
+//     console.log(response.image_id);
+//     //const responseData = await uploadFile(response.image_id)
+//     //console.log(responseData);
+//     // 在这里处理服务器的响应
+//     //   // 1. 提示用户
+//     ElMessage({ type: 'success', message: '上传成功' })
+//     uploadInfo.value =
+//         {
+//           name: file.name,
+//           score: response.score,
+//           comment: response.comment,
+//           imagePath: 'http://43.139.115.247:9999/api/v1/public/img/get?id='+response.image_id,
+//         };
+//     isSearchExecuted.value = false;
+//     img.updateWorks(uploadInfo.value);
+// }
 
 
 const router = useRouter()
 
 const gotoPhotoPage = (image) => {
   const PhotoPageParams = {
+    id: image.id,
     name: image.name,
     score: image.score,
     comment: image.comment,
     imagePath: image.imagePath,
+    date: image.date
   }
 
   router.push({ name: 'PhotoPage', params: PhotoPageParams })
 }
 
-const  updateImage= () => {
-      location.reload();
-    }
 // const handleUploadSuccess = async (response, file) => {
 //   const responseData = await uploadFile(file.raw);
 //   console.log('Server Response:', responseData);
@@ -100,9 +176,9 @@ const  updateImage= () => {
         <el-upload
           class="upload-demo"
           drag
-          :action="uploadAction"
+          action="#"
           multiple
-          :on-success="handleUploadSuccess"
+          :http-request="uploadRequest"
         >
           <el-icon class="el-icon--upload my-upload my-uploadsize"><upload-filled /></el-icon>
           <div class="el-upload__text el-upload__textsize">
@@ -134,8 +210,8 @@ const  updateImage= () => {
            <drop-down-tag tagName="识别结果">
               <div class="body-leftmargin">
                 <div style="display: flex; flex-wrap: wrap;">
-                  <img-item class="body-item" v-for="im in img.getWorks" :key="im.name" :value="im.imagePath"
-                             :score="im.score" :name="im.name" @click="gotoPhotoPage(im)">
+                  <img-item class="body-item" v-for="im in img.getWorks" :key="im.id" :value="im.imagePath"
+                             :id="im.id" :score="im.score" :name="im.name" @click="gotoPhotoPage(im)">
                   </img-item>
                 </div>
               </div>
@@ -340,7 +416,7 @@ const  updateImage= () => {
 /*页面主体内容样式*/
 .body-item {
   display: flex;
-  flex-wrap: warp;
+  flex-wrap: wrap;
 }
 
 /*页面主体图片样式*/
