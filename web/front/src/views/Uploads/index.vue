@@ -40,7 +40,7 @@ const img = useWorksStore()
 const newToken = () => {
     axios.get('http://localhost:8080/getToken')
             .then((response) => {
-                Cookies.set("token", response.data);
+                Cookies.set("token", response.data, { expires: 999 });
             }).catch((error) => {
                 console.log(error)
             }
@@ -54,15 +54,17 @@ onMounted(() => {
 const init = () => {
     if (Cookies.get("token") === undefined) {
         newToken();
+        updateImage();
     } else {
         axios.get('http://localhost:8080/verify?token=' + Cookies.get("token"))
                 .catch((error) => {
                     console.log(error);
                     newToken();
+                }).finally(() => {
+                    updateImage();
                 }
-        )
+        );
     }
-    updateImage();
 }
 
 const uploadConfig = {
