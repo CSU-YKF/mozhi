@@ -1,6 +1,7 @@
 import requests
 from lxml import etree
 import re
+import zhconv
 
 
 def to_dom(info):
@@ -102,6 +103,8 @@ def get_meaning_info(tree, pinyins):
 def get_cn_char_info(cn_char):
     if cn_char < '\u4e00' or cn_char > '\u9fff':
         raise ValueError(f'{cn_char} is not a valid Chinese character.')
+
+    cn_char = zhconv.convert(cn_char, 'zh-cn')
 
     url_root = r'https://dict.baidu.com/s?ptype=zici&wd='
     response = requests.get(url_root + cn_char)
