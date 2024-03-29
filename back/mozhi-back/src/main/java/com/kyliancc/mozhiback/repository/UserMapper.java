@@ -22,7 +22,4 @@ public interface UserMapper {
 
     @Select("select id from inkin.user where token = #{token}")
     Integer queryIdByToken(int id);
-
-    @Select("select last_insert_id()")
-    int getLastInsertId();
 }

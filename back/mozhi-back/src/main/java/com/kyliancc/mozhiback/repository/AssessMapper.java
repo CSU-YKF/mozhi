@@ -30,12 +30,6 @@ public interface AssessMapper {
     @Select("select image_data from inkin.assess where id = #{id}")
     String queryImageDataById(int id);
 
-    @Select("select last_insert_id()")
-    int getLastInsertId();
-
     @Select("select id, score, comment, char_name as charName, upload_date as uploadDate from inkin.assess where user_id = #{userId}")
     List<Assessment> queryIdByUserId(int userId);
-
-    @Select("select score, comment, char_name as charName from inkin.assess where (id = #{id}, user_id = #{userId})")
-    Assessment queryByDoubleId(@Param("id") int id, @Param("userId") int userId);
 }

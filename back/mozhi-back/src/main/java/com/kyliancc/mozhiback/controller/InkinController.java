@@ -34,9 +34,7 @@ public class InkinController {
 
     @RequestMapping("/verify")
     @CrossOrigin
-    public ResponseEntity<Object> verify(@RequestBody Map<String, Object> data) {
-        int token = (int) data.get("token");
-
+    public ResponseEntity<Object> verify(@RequestParam("token") int token) {
         Integer id = userService.getIdByToken(token);
 
         Map<String, Boolean> responseData = new HashMap<>();
@@ -52,9 +50,6 @@ public class InkinController {
     @RequestMapping("/upload")
     @CrossOrigin
     public ResponseEntity<Object> uploadImage(MultipartFile file, @RequestParam("token") int token) {
-//        MultipartFile file = (MultipartFile) data.get("file");
-//        int token = (int) data.get("token");
-
         Integer id = userService.getIdByToken(token);
         if (id == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
