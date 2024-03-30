@@ -11,6 +11,7 @@ import ImgItem from '@/components/ImgTmp.vue';
 import DropDownTag from '@/components/DropDownTagTmp.vue';
 import axios from "axios";
 import Cookies from "js-cookie"
+import {Chart} from "chart.js/auto";
 
 //const uploadUrl = 'http://127.0.0.1:4523/m1/2767929-0-default/api/v1/img/upload'
 //http://43.139.115.247:9999/api/v1/public/img/upload
@@ -51,7 +52,14 @@ onMounted(() => {
     init();
 })
 
+const chartCanvas = ref(null);
+let chartInstance = null;
+
+// 初始化
 const init = () => {
+    chartCanvas.value = document.getElementById('lineChart');
+    const ctx = chartCanvas.value.getContext('2d');
+    chartInstance = new Chart(ctx, config);
     if (Cookies.get("token") === undefined) {
         newToken();
         updateImage();
@@ -67,12 +75,14 @@ const init = () => {
     }
 }
 
+// 上传请求配置
 const uploadConfig = {
     headers: {
         "Content-Type": "multipart/form-data"
     }
 }
 
+// 发送上传请求
 const uploadRequest = (request) => {
     console.log(request);
     ElMessage({ type: 'info', message: '正在生成评价，请耐心等待...' });
@@ -90,6 +100,7 @@ const uploadRequest = (request) => {
     });
 }
 
+// 更新图片列表
 const updateImage = () => {
     axios.get('http://localhost:8080/queryAll?token=' + Cookies.get("token"))
             .then((response) => {
@@ -102,15 +113,77 @@ const updateImage = () => {
                         score: data[i].score,
                         comment: data[i].comment,
                         imagePath: 'http://localhost:8080/getImage?id=' + data[i].id,
-                        date: new Date(data[i].uploadDate.slice(0, 10))
+                        date: new Date(data[i].uploadDate)
                     });
-
                 }
                 img.setWorks(works);
             }).catch((error) => {
                 console.log(error);
+            }).finally(() => {
+                updateChart();
             }
-    );
+    )
+}
+
+// 图表配置
+const config = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: '分数',
+            data: [],
+            borderColor: 'teal',
+            fill: false,
+            hidden: false
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: '分数统计'
+            }
+        },
+        interaction: {
+            intersect: false
+        },
+        scales: {
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: '日期'
+                }
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: '分数'
+                },
+                suggestedMin: 0,
+                suggestedMax: 10
+            }
+        }
+    }
+};
+
+// 更新图表
+const updateChart = () => {
+    if (img.works.length < 3) {
+        return;
+    }
+    let labels = [];
+    let data = [];
+    for (let i = 2; i < img.works.length; i++) {
+        labels.push((img.works[i].date.getMonth() + 1) + '月' + img.works[i].date.getDate() + '日');
+        data.push(img.works[i].score);
+    }
+    chartInstance.data.labels = labels;
+    chartInstance.data.datasets[0].data = data;
+    chartInstance.update()
 }
 
 // const handleUploadSuccess = async(response, file, fileList)=> {
@@ -219,6 +292,9 @@ const gotoPhotoPage = (image) => {
               </div>
             </drop-down-tag>
           </div>
+            <div id="lineChartBox">
+                <canvas id="lineChart"></canvas>
+            </div>
         </div>
       </div>
       <div style="width: 100%;height: 40px;"></div>
