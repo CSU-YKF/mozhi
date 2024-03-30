@@ -13,11 +13,13 @@ import axios from "axios";
 import Cookies from "js-cookie"
 import {Chart} from "chart.js/auto";
 
+const urlRoot = 'http://43.139.115.247:8080';
+
 //const uploadUrl = 'http://127.0.0.1:4523/m1/2767929-0-default/api/v1/img/upload'
 //http://43.139.115.247:9999/api/v1/public/img/upload
 //http://127.0.0.1:4523/m1/2767929-0-default/api/v1/img/upload
 //http://localhost:8080/api/v1/public/img/upload
-// const uploadAction = ref('http://localhost:8080/api/v1/public/img/upload');
+// const uploadAction = ref(urlRoot + '/api/v1/public/img/upload');
 const img = useWorksStore()
 // const isSearchExecuted = ref(false);
 // const uploadInfo = ref({});
@@ -39,7 +41,7 @@ const img = useWorksStore()
 //   }
 
 const newToken = () => {
-    axios.get('http://localhost:8080/getToken')
+    axios.get(urlRoot + '/getToken')
             .then((response) => {
                 Cookies.set("token", response.data, { expires: 999 });
             }).catch((error) => {
@@ -64,7 +66,7 @@ const init = () => {
         newToken();
         updateImage();
     } else {
-        axios.get('http://localhost:8080/verify?token=' + Cookies.get("token"))
+        axios.get(urlRoot + '/verify?token=' + Cookies.get("token"))
                 .catch((error) => {
                     console.log(error);
                     newToken();
@@ -87,7 +89,7 @@ const uploadRequest = (request) => {
     console.log(request);
     ElMessage({ type: 'info', message: '正在生成评价，请耐心等待...' });
     axios.post(
-            'http://localhost:8080/upload?token=' + Cookies.get("token"),
+            urlRoot + '/upload?token=' + Cookies.get("token"),
             {'file': request.file},
             uploadConfig
     ).then((response) => {
@@ -102,7 +104,7 @@ const uploadRequest = (request) => {
 
 // 更新图片列表
 const updateImage = () => {
-    axios.get('http://localhost:8080/queryAll?token=' + Cookies.get("token"))
+    axios.get(urlRoot + '/queryAll?token=' + Cookies.get("token"))
             .then((response) => {
                 const data = response.data;
                 var works = [];
@@ -112,7 +114,7 @@ const updateImage = () => {
                         name: data[i].charName,
                         score: data[i].score,
                         comment: data[i].comment,
-                        imagePath: 'http://localhost:8080/getImage?id=' + data[i].id,
+                        imagePath: urlRoot + '/getImage?id=' + data[i].id,
                         date: new Date(data[i].uploadDate)
                     });
                 }
