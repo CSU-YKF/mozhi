@@ -1,10 +1,10 @@
 
 .idea
 ./algorithms/.idea
-/algorithms/dataset/data/E3C/
-/algorithms/dataset/data/HWDB/
-/algorithms/deepmodel/data/E3C/
-/algorithms/recognize/runs/
+/algorithms/data/data/E3C/
+/algorithms/data/data/HWDB/
+/algorithms/src/assessment/deepmodel/data/E3C/
+/algorithms/src/recognize/runs/
 
 .venv
 venv
@@ -24,3 +24,6 @@ web/dist
 *.png
 *.jpg
 >>>>>>> Stashed changes
+/algorithms/src/preprocess/single_pre/patch/
+/algorithms/src/preprocess/single_pre/src/
+/algorithms/src/recognize/cn_char_recognize/runs/
