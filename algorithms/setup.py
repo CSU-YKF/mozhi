@@ -6,7 +6,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from src.score import gnn_score
-from src.recognize import recog_cn_char
+from src.recognize import recog_cn_char, get_cn_char_info
 from src.comment import gpt_comment
 
 app = FastAPI()

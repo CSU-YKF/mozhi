@@ -1,7 +1,7 @@
 import os
 
-from cn_char_info import get_cn_char_info
-from cn_char_recog import recog_cn_char
+from .cn_char_info import get_cn_char_info
+from .cn_char_recog import recog_cn_char
 
 '''
 获取信息失败时抛出 RuntimeError，需要异常处理

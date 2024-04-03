@@ -1,2 +1,2 @@
-from charinfo.cn_char_recog import recog_cn_char
-from charinfo.cn_char_info import get_cn_char_info
+from .charinfo import recog_cn_char
+from .charinfo import get_cn_char_info
