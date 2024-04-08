@@ -1,33 +1,29 @@
 <script setup>
-
-
-// 表单校验（账号名+密码）
-
-import { ref } from 'vue'
-
-import { ElMessage } from 'element-plus'
+import {ref} from 'vue'
+import axios from "axios";
+import {ElMessage} from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 // import { loginAPI } from '@/apis/login'
-import { useUserStore } from '@/stores/userStore'
+// import { useUserStore } from '@/stores/userStore'
 
-const userStore = useUserStore()
+// const userStore = useUserStore()
 
 // 1. 准备表单对象
 const form = ref({
-  account: 'dyf',
-  password: '123456',
+  account: '',
+  password: '',
   agree: true
 })
 
 // 2. 准备规则对象
 const rules = {
   account: [
-    { required: true, message: '用户名不能为空', trigger: 'blur' }
+    {required: true, message: '用户名不能为空', trigger: 'blur'}
   ],
   password: [
-    { required: true, message: '密码不能为空', trigger: 'blur' },
-    { min: 6, max: 14, message: '密码长度为6-14个字符', trigger: 'blur' },
+    {required: true, message: '密码不能为空', trigger: 'blur'},
+    {min: 6, max: 14, message: '密码长度为6-14个字符', trigger: 'blur'},
   ],
   agree: [
     {
@@ -50,30 +46,44 @@ const formRef = ref(null)
 const router = useRouter()
 
 const doLogin = (formData) => {
-    const { account, password } = formData
-    // 调用实例方法
-    formRef.value.validate(async (valid) => {
-      // valid: 所有表单都通过校验  才为true
-      console.log(valid)
-      // 以valid做为判断条件 如果通过校验才执行登录逻辑
-      if (valid) {
-        // TODO LOGIN
-        // const res = await loginAPI({ account, password })
-        // console.log(res)
-        await userStore.getUserInfo({ account, password })
-        // 1. 提示用户
-        ElMessage({ type: 'success', message: '会员登录成功' })
-        // 2. 跳转首页
-        router.replace({ path: '/upload/search' })
+  // 调用实例方法
+  formRef.value.validate(async (valid) => {
+    // 以valid做为判断条件 如果通过校验才执行登录逻辑
+    if (valid) {
+      try {
+        const response = await axios.post('http://localhost:80/login', {
+          account: formData.account,
+          password: formData.password,
+        });
+
+        if (response.data.code === 200) {
+          // 1. 提示用户
+          ElMessage({type: 'success', message: '会员登录成功'})
+          // 2. 跳转首页
+          await router.replace({path: '/upload/search'})
+        } else {
+          ElMessage.error('账户或密码错误');
+        }
+      } catch (error) {
+        ElMessage.error('登录请求失败，请稍后重试');
       }
+    } else {
+      return false
+    }
+    //   // const res = await loginAPI({ account, password })
+    //   // console.log(res)
+    //   await userStore.getUserInfo({ account, password })
+    //   // 1. 提示用户
+    //   ElMessage({ type: 'success', message: '会员登录成功' })
+    //   // 2. 跳转首页
+    //   router.replace({ path: '/upload/search' })
+    // }
   })
 }
 
 
- 
-
-const toRegister = () => {  
-      router.replace({ path: '/register' })
+const toRegister = () => {
+  router.replace({path: '/register'})
 }
 // 1. 用户名和密码 只需要通过简单的配置（看文档的方式 - 复杂功能通过多个不同组件拆解）
 // 2. 同意协议  自定义规则  validator:(rule,value,callback)=>{}
@@ -104,10 +114,10 @@ const toRegister = () => {
           <div class="form">
             <el-form ref="formRef" :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
               <el-form-item prop="account" label="账户">
-                <el-input v-model="form.account" />
+                <el-input v-model="form.account"/>
               </el-form-item>
               <el-form-item prop="password" label="密码">
-                <el-input v-model="form.password" />
+                <el-input v-model="form.password"/>
               </el-form-item>
               <el-form-item prop="agree" label-width="22px">
                 <el-checkbox size="large" v-model="form.agree">
@@ -115,8 +125,8 @@ const toRegister = () => {
                 </el-checkbox>
               </el-form-item>
               <div class="button-container">
-                <el-button size="large" class="subBtn" @click="doLogin(form.value)">点击登录</el-button>
-                <el-button size="large" class="subBtn" @click="toRegister">点击注册</el-button>
+                <el-button size="large" class="subBtn" @click="doLogin(form.value)">登录</el-button>
+                <el-button size="large" class="subBtn" @click="toRegister">注册</el-button>
               </div>
             </el-form>
           </div>
@@ -238,7 +248,7 @@ const toRegister = () => {
       color: #999;
       display: inline-block;
 
-      ~a {
+      ~ a {
         border-left: 1px solid #ccc;
       }
     }
@@ -269,7 +279,7 @@ const toRegister = () => {
         position: relative;
         height: 36px;
 
-        >i {
+        > i {
           width: 34px;
           height: 34px;
           background: #cfcdcd;
@@ -314,7 +324,7 @@ const toRegister = () => {
         }
       }
 
-      >.error {
+      > .error {
         position: absolute;
         font-size: 12px;
         line-height: 28px;
@@ -371,7 +381,7 @@ const toRegister = () => {
 
 .button-container {
   display: flex;
-  justify-content: space-between;  // 按钮之间有空间
+  justify-content: space-between; // 按钮之间有空间
 }
 
 </style>
