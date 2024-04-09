@@ -26,7 +26,7 @@ export default defineConfig({
   server: {
     historyApiFallback: true,
     host: '0.0.0.0',
-    port: 80,
+    port: 12345,
   },
   build:{
     outDir: '../dist',

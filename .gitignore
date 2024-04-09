@@ -14,16 +14,7 @@ log
 web/front/node_modules
 web/front/dist
 web/dist
-<<<<<<< Updated upstream
-*.gnt
-*.pyc
-=======
-*.png
-*.zip
-*.txt
-*.png
-*.jpg
->>>>>>> Stashed changes
+
 /algorithms/src/preprocess/single_pre/patch/
 /algorithms/src/preprocess/single_pre/src/
 /algorithms/src/recognize/cn_char_recognize/runs/

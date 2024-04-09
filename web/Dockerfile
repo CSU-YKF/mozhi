@@ -1,20 +1,11 @@
-# 使用官方的node镜像作为基础镜像
-FROM node:latest
+# 使用官方的nginx镜像作为基础镜像
+FROM nginx:latest
 
-# 设置工作目录
-WORKDIR /app
+# 将dist文件中的内容复制到nginx的html目录下，这样nginx就可以提供这些静态文件了
+COPY ./dist /usr/share/nginx/html
 
-# 复制 package.json 和 package-lock.json 到工作目录
-COPY ./front/package*.json ./
-
-# 安装项目依赖
-RUN npm install
-
-# 复制其他源代码到工作目录
-COPY ./front .
-
-
+# 暴露80端口
 EXPOSE 80
 
-# 启动项目
-CMD ["npm", "run", "dev"]
+# 启动nginx
+CMD ["nginx", "-g", "daemon off;"]

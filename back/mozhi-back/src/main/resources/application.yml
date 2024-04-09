@@ -3,7 +3,7 @@ spring:
     url: "jdbc:mysql://localhost:3306/inkin?autoreconnect=true"
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: "root"
-    password: "123456"
+    password: "password"
 
 inkin:
   server-url: "http://localhost:8080/"
