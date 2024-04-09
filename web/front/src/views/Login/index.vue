@@ -45,40 +45,41 @@ const rules = {
 const formRef = ref(null)
 const router = useRouter()
 
-const doLogin = (formData) => {
-  // 调用实例方法
-  formRef.value.validate(async (valid) => {
-    // 以valid做为判断条件 如果通过校验才执行登录逻辑
-    if (valid) {
-      try {
-        const response = await axios.post('http://localhost:80/login', {
-          account: formData.account,
-          password: formData.password,
-        });
+const doLogin = () => {
 
-        if (response.data.code === 200) {
-          // 1. 提示用户
-          ElMessage({type: 'success', message: '会员登录成功'})
-          // 2. 跳转首页
-          await router.replace({path: '/upload/search'})
-        } else {
-          ElMessage.error('账户或密码错误');
-        }
-      } catch (error) {
-        ElMessage.error('登录请求失败，请稍后重试');
-      }
-    } else {
-      return false
-    }
+  // 调用实例方法
+  // formRef.value.validate(async (valid) => {
+  //   // 以valid做为判断条件 如果通过校验才执行登录逻辑
+  //   if (valid) {
+  //     try {
+  //       const response = await axios.post('http://localhost:80/login', {
+  //         account: formData.account,
+  //         password: formData.password,
+  //       });
+  //
+  //       if (response.data.code === 200) {
+  //         // 1. 提示用户
+  //         ElMessage({type: 'success', message: '会员登录成功'})
+  //         // 2. 跳转首页
+  //         await router.replace({path: '/upload/search'})
+  //       } else {
+  //         ElMessage.error('账户或密码错误');
+  //       }
+  //     } catch (error) {
+  //       ElMessage.error('登录请求失败，请稍后重试');
+  //     }
+  //   } else {
+  //     return false
+  //   }
     //   // const res = await loginAPI({ account, password })
     //   // console.log(res)
     //   await userStore.getUserInfo({ account, password })
     //   // 1. 提示用户
     //   ElMessage({ type: 'success', message: '会员登录成功' })
     //   // 2. 跳转首页
-    //   router.replace({ path: '/upload/search' })
+      router.replace({ path: 'uploads/upload' })
     // }
-  })
+  // })
 }
 
 
