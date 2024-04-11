@@ -1,0 +1,32 @@
+-- 创建assess表
+CREATE TABLE IF NOT EXISTS assess (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    score REAL,
+    comment TEXT NOT NULL,
+    character_name TEXT NOT NULL,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 创建image表
+CREATE TABLE IF NOT EXISTS image (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data BLOB,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 创建user表
+CREATE TABLE IF NOT EXISTS user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    password TEXT,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS paragraphs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    character TEXT NOT NULL,
+    basic_dom TEXT,
+    meaning_dom TEXT,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
