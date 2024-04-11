@@ -79,10 +79,9 @@ import { useWorksStore } from '@/stores/holeworks';
 import ImgItem from '@/components/ImgTmp.vue';
 import DropDownTag from '@/components/DropDownTagTmp.vue';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { Chart } from 'chart.js/auto';
 
-const urlRoot = 'http://43.139.115.247:8080';
+const urlRoot = 'http://localhost:8080';
 
 const img = useWorksStore();
 const chartCanvas = ref(null);
@@ -94,32 +93,7 @@ const init = () => {
   chartCanvas.value = document.getElementById('lineChart');
   const ctx = chartCanvas.value.getContext('2d');
   chartInstance = new Chart(ctx, config);
-  if (Cookies.get('token') === undefined) {
-    newToken();
-    updateImage();
-  } else {
-    axios
-      .get(urlRoot + '/verify?token=' + Cookies.get('token'))
-      .catch((error) => {
-        console.log(error);
-        newToken();
-      })
-      .finally(() => {
-        updateImage();
-      });
-  }
-};
-
-// 获取新的令牌
-const newToken = () => {
-  axios
-    .get(urlRoot + '/getToken')
-    .then((response) => {
-      Cookies.set('token', response.data, { expires: 999 });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  updateImage();
 };
 
 // 上传请求配置
@@ -130,25 +104,25 @@ const uploadConfig = {
 };
 
 // 发送上传请求
-const uploadRequest = (request) => {
-  console.log(request);
+const uploadRequest = async (request) => {
   loadingInstance = ElLoading.service({ text: '正在生成评价,请耐心等待...' });
-  axios
-    .post(urlRoot + '/upload', { image: request.file }, uploadConfig)
-    .then((response) => {
-      console.log(response);
-      ElMessage({ type: 'success', message: '评价生成成功' });
-      updateImage();
-    })
-    .catch((error) => {
-      console.log(error);
-      ElMessage({ type: 'error', message: '上传失败,请重试' });
-    })
-    .finally(() => {
-      if (loadingInstance) {
-        loadingInstance.close();
-      }
-    });
+
+  const formData = new FormData();
+  formData.append('image', request.file);
+
+  try {
+    const response = await axios.post(urlRoot + '/upload', formData, uploadConfig);
+    console.log(response);
+    ElMessage({ type: 'success', message: '评价生成成功' });
+    await updateImage();
+  } catch (error) {
+    console.log(error);
+    ElMessage({ type: 'error', message: '上传失败,请重试' });
+  } finally {
+    if (loadingInstance) {
+      loadingInstance.close();
+    }
+  }
 };
 
 // 上传成功后自动更新图片列表
@@ -157,30 +131,27 @@ const handleUploadSuccess = () => {
 };
 
 // 更新图片列表
-const updateImage = () => {
-  axios
-    .get(urlRoot + '/queryAll')
-    .then((response) => {
-      const data = response.data;
-      let works = [];
-      for (let i = 0; i < data.length; i++) {
-        works.push({
-          id: data[i].id,
-          name: data[i].charName,
-          score: data[i].score,
-          comment: data[i].comment,
-          imagePath: urlRoot + '/getImage?id=' + data[i].id,
-          date: new Date(data[i].uploadDate),
-        });
-      }
-      img.setWorks(works);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-    .finally(() => {
-      updateChart();
-    });
+const updateImage = async () => {
+  try {
+    const response = await axios.get(urlRoot + '/getAllAssessment');
+    const data = response.data;
+    let works = [];
+    for (let i = 0; i < data.length; i++) {
+      works.push({
+        id: data[i][0],
+        name: data[i][4],
+        score: data[i][2],
+        comment: data[i][3],
+        imagePath: urlRoot + '/getImage/' + data[i][6],
+        date: new Date(data[i][5]),
+      });
+    }
+    img.setWorks(works);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    updateChart();
+  }
 };
 
 // 图表配置
@@ -267,7 +238,6 @@ onMounted(() => {
   init();
 });
 </script>
-
 <style lang="scss">
 // 全局样式
 body {

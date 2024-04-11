@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS assess (
     score REAL,
     comment TEXT NOT NULL,
     character_name TEXT NOT NULL,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    image_id INTEGER
 );
 
 -- 创建image表

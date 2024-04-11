@@ -1,15 +1,14 @@
-
 .idea
-
 .venv
-venv
-python/.venv
 log
+node_modules
+__pycache__
 
-web/front/node_modules
-web/front/dist
-web/dist
+# ignore the image files and txt files
+*.png
+*.jpg
+*.jpeg
+*.txt
 
-/algorithms/src/preprocess/single_pre/patch/
-/algorithms/src/preprocess/single_pre/src/
-/algorithms/src/recognize/cn_char_recognize/runs/
+# ignore the database files
+*.sqlite3

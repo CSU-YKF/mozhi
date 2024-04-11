@@ -130,7 +130,7 @@ export default {
 
     const fetchCharInfo = () => {
       axios
-        .get(`http://localhost:8080/queryInfo?char=${char.value}`)
+        .get(`http://localhost:8080/getInformation/${char.value}`)
         .then((response) => {
           basicDom.value = response.data.basicDom;
           meaningDom.value = response.data.meaningDom;

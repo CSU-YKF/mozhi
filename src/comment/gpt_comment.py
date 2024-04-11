@@ -15,7 +15,7 @@ with open(KEY_PATH, 'r') as file:
 client = OpenAI(api_key=API_KEY)
 
 # 从system.txt中导入系统内容
-with open(os.path.join(os.path.dirname(__file__), 'system.txt'), 'r') as file:
+with open(os.path.join(os.path.dirname(__file__), 'system.txt'), 'r', encoding='utf-8') as file:
     SYSTEM_CONTENT = file.read()
 
 
@@ -68,7 +68,7 @@ def gpt_comment(base64_image, image_type: str, image_score: float) -> str:
 
 if __name__ == '__main__':
     # 使用test.png作为测试图片
-    with open('img.png', 'rb') as file:
+    with open('fu.jpg', 'rb') as file:
         img_base64 = base64.b64encode(file.read()).decode()
-    result = gpt_comment(img_base64, '信', 0.8)
+    result = gpt_comment(img_base64, '夫', 6)
     print(result)

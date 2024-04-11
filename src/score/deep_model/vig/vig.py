@@ -2,8 +2,9 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torchvision
 from torch.nn import Sequential as Seq
-from gcn_lib import Grapher, act_layer
+from .gcn_lib import Grapher, act_layer
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from timm.models.helpers import load_pretrained
@@ -215,3 +216,9 @@ def vig_b_224_gelu(pretrained=False, **kwargs):
     model = DeepGCN(opt)
     model.default_cfg = default_cfgs['gnn_patch16_224']
     return model
+
+
+model = torchvision.models.resnet50(weights=None)
+model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+model.fc = nn.Linear(2048, 1)
+model.to("cuda" if torch.cuda.is_available() else "cpu")

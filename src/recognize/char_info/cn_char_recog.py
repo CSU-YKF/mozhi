@@ -44,7 +44,9 @@ def recog_cn_char(img_base64):
 if __name__ == '__main__':
     # 使用test.png作为测试图片
 
-    with open('img.png', 'rb') as file:
+    with open('../../../tests/ni.png', 'rb') as file:
         img_base64 = base64.b64encode(file.read()).decode()
-    result = recog_cn_char(img_base64)
-    print(result)
+        print(img_base64)
+    # result = recog_cn_char(img_base64)
+    #     result = recog_cn_char(file.read())
+    # print(result)

@@ -83,7 +83,7 @@ def main():
         # scheduler.step()
 
     # 保存模型
-    torch.save(model.state_dict(), 'resnet50.pth')
+    torch.save(model.state_dict(), 'CGNN.pth')
 
 
 if __name__ == '__main__':

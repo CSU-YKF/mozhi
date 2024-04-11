@@ -4,12 +4,12 @@ import requests
 url = "http://localhost:8080/upload"
 
 # 要上传的文件路径
-file_path = "6.jpeg"
+file_path = "ni.png"
 
 # 打开文件
-with open(file_path, "rb") as file:
-    # 发送MultiPart请求
-    response = requests.post(url, files={"file": file})
+# with open(file_path, "rb") as file:
+# 发送MultiPart请求
+response = requests.post(url, files={"file": file_path})
 
 # 检查响应状态码
 if response.status_code == 200:
