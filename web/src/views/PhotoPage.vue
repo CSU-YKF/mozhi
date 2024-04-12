@@ -73,7 +73,7 @@
                   <div class="item-box">
                     <div style="margin: 0 20px;">
                       <el-button type="primary" @click="goBack">返回</el-button>
-                      <el-button type="success" @click="uploadImage">上传图片</el-button>
+<!--                      <el-button type="success" @click="uploadImage">上传图片</el-button>-->
                     </div>
                   </div>
                 </el-card>
