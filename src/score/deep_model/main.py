@@ -22,8 +22,12 @@ def preprocess_image(image):
     对图像进行预处理
     """
     transform = default_transform
+
+    # 判断image是否为文件路径，或者是否已经被Image.open()打开
     if isinstance(image, str):
         image = Image.open(image).convert('RGB')
+    elif not isinstance(image, Image.Image):
+        raise ValueError('image参数必须是文件路径或者PIL.Image.Image对象')
     image = transform(image)
     image = image.unsqueeze(0)  # 增加批次维度
     return image

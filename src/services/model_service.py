@@ -1,23 +1,31 @@
 import base64
+import io
+
 import numpy as np
 from typing import Dict
+from PIL import Image
 
 from src.score import gnn_score
 from src.recognize import recog_cn_char, get_cn_char_info
 from src.comment import gpt_comment
 
 
-async def evaluate_image(image_path: str) -> Dict:
-    with open(image_path, "rb") as f:
-        image_bytes = f.read()
-
+async def evaluate_image(image_bytes: bytes) -> Dict:
     image_base64 = base64.b64encode(image_bytes).decode('utf-8')
 
-    score = gnn_score(image_path)
+    image = Image.open(io.BytesIO(image_bytes))
+
+    score = gnn_score(image)
     try:
         char_name = recog_cn_char(image_base64)
     except Exception:
         char_name = "未知"
+    if char_name == "未知":
+        return {
+            "score": 0,
+            "comment": None,
+            "charName": char_name
+        }
     comment = gpt_comment(image_base64, char_name, score)
     # except Exception:
     #     score = 0

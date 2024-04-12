@@ -41,16 +41,7 @@ async def store_image(data_blob: bytes):
     return cursor.lastrowid
 
 
-async def process_image(image_upload_file: UploadFile):
-    # 生成唯一的文件名
-    file_extension = os.path.splitext(image_upload_file.filename)[1]
-    unique_filename = str(uuid.uuid4()) + file_extension
-
-    # 保存上传的文件到本地文件系统和数据库
-    file_path = os.path.join("uploads", unique_filename)
-    with open(file_path, "wb") as file:
-        file.write(await image_upload_file.read())
-
+async def process_image(image_bytes: UploadFile):
     # 评估图像
     result = await evaluate_image(file_path)
     image_id = await store_image(open(file_path, "rb").read())
@@ -80,10 +71,31 @@ def store_result(result_json: dict):
 
 @app.post("/upload")
 async def upload(image: UploadFile = File(...)):
+    """
+    Args:
+        image: 上传的图片文件,File类型,关于File类型的详细信息请参考FastAPI文档
+    # image = UploadFile(filename=image.filename, content_type=image.content_type, file=image_base64)
+
+    """
     # 检查文件是否为图片类型
     if not image.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="只能上传图片文件")
-    result = await process_image(image)
+
+    # 将图像作为File上传后，直接使用read()方法读取图像的字节数据，然后将其转换为base64编码
+    image_bytes = await image.read()
+
+    # 生成唯一的文件名
+    file_extension = os.path.splitext(image.filename)[1]
+    unique_filename = str(uuid.uuid4()) + file_extension
+
+    # 保存上传的文件到本地文件系统和数据库
+    file_path = os.path.join("uploads", unique_filename)
+    with open(file_path, "wb") as file:
+        file.write(image_bytes)
+
+    image_base64 = base64.b64encode(image_bytes).decode("utf-8")  # 将图片转换为base64编码
+    # result = await process_image(image_bytes)
+    result = await evaluate_image(image_bytes)
     # 插入assessment
     store_result(result)
 
@@ -152,6 +164,7 @@ async def get_information(char_name: str):
         raise HTTPException(status_code=500, detail="数据库操作错误")
     finally:
         conn.close()
+
 
 @app.get("/getAllAssessment")
 async def get_all_assessment():
